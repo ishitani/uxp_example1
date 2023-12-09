@@ -8,8 +8,8 @@ dnl Things we need to carry over from confvars.sh
 AC_DEFINE(MOZ_PHOENIX)
 AC_SUBST(MOZ_PHOENIX)
 
-AC_DEFINE(MC_EXAMPLE)
-AC_SUBST(MC_EXAMPLE)
+AC_DEFINE(MC_MYTESTAPP)
+AC_SUBST(MC_MYTESTAPP)
 
 dnl Optional parts of the build.
 

@@ -8,8 +8,7 @@
 # These values where appropriate are hardcoded in application.ini
 # to "Pale Moon" and "Moonchild Productions" respectively for
 # Pale Moon
-# MOZ_APP_BASENAME=Palemoon
-MOZ_APP_BASENAME=Example
+MOZ_APP_BASENAME=MyTestApp
 MOZ_APP_VENDOR=CDDD-LAB
 
 # Application Version
@@ -35,13 +34,11 @@ MOZ_APP_STATIC_INI=1
 # Changing MOZ_*BRANDING_DIRECTORY requires a clobber because branding
 # dependencies are broken.
 # MOZ_APP_DISPLAYNAME will be set by [branding]/configure.sh
-#MOZ_BRANDING_DIRECTORY=palemoon/branding/unofficial
-MOZ_BRANDING_DIRECTORY=example/branding/unofficial
-#MOZ_OFFICIAL_BRANDING_DIRECTORY=palemoon/branding/official
-MOZ_OFFICIAL_BRANDING_DIRECTORY=example/branding/official
+MOZ_BRANDING_DIRECTORY=mytestapp/branding/unofficial
+MOZ_OFFICIAL_BRANDING_DIRECTORY=mytestapp/branding/official
 
 # Enables conditional code in the platform for Pale Moon only
-MC_EXAMPLE=1
+MC_MYTESTAPP=1
 
 # Enables conditional code in the platform for historically
 # Firefox-like browsers
@@ -98,7 +95,7 @@ fi
 # Currently, only omni and flat are supported
 MOZ_CHROME_FILE_FORMAT=flat
 JAR_COMPRESSION=brotli
-OMNIJAR_NAME=example.res
+OMNIJAR_NAME=mytestapp.res
 # OMNIJAR_NAME=${MOZ_APP_NAME}.res
 
 # Set the default top-level extensions

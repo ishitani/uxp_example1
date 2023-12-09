@@ -3,46 +3,46 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 installer:
-	@$(MAKE) -C example/installer installer
+	@$(MAKE) -C mytestapp/installer installer
 
 package:
-	@$(MAKE) -C example/installer make-archive
+	@$(MAKE) -C mytestapp/installer make-archive
 
 l10n-package:
-	@$(MAKE) -C example/installer make-langpack
+	@$(MAKE) -C mytestapp/installer make-langpack
 
 mozpackage:
-	@$(MAKE) -C example/installer
+	@$(MAKE) -C mytestapp/installer
 
 package-compare:
-	@$(MAKE) -C example/installer package-compare
+	@$(MAKE) -C mytestapp/installer package-compare
 
 stage-package:
-	@$(MAKE) -C example/installer stage-package make-buildinfo-file
+	@$(MAKE) -C mytestapp/installer stage-package make-buildinfo-file
 
 install::
-	@$(MAKE) -C example/installer install
+	@$(MAKE) -C mytestapp/installer install
 
 clean::
-	@$(MAKE) -C example/installer clean
+	@$(MAKE) -C mytestapp/installer clean
 
 distclean::
-	@$(MAKE) -C example/installer distclean
+	@$(MAKE) -C mytestapp/installer distclean
 
 source-package::
-	@$(MAKE) -C example/installer source-package
+	@$(MAKE) -C mytestapp/installer source-package
 
 upload::
-	@$(MAKE) -C example/installer upload
+	@$(MAKE) -C mytestapp/installer upload
 
 source-upload::
-	@$(MAKE) -C example/installer source-upload
+	@$(MAKE) -C mytestapp/installer source-upload
 
 hg-bundle::
-	@$(MAKE) -C example/installer hg-bundle
+	@$(MAKE) -C mytestapp/installer hg-bundle
 
 l10n-check::
-	@$(MAKE) -C example/locales l10n-check
+	@$(MAKE) -C mytestapp/locales l10n-check
 
 ifdef ENABLE_TESTS
 # Implemented in testing/testsuite-targets.mk
