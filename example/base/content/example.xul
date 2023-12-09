@@ -1,0 +1,47 @@
+<?xml version="1.0"?> <!-- -*- Mode: HTML; indent-tabs-mode: nil -*- -->
+
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://example/skin/" type="text/css"?>
+
+<!DOCTYPE window [
+<!ENTITY % brandDTD SYSTEM "chrome://branding/locale/brand.dtd" >
+%brandDTD;
+<!ENTITY % exampleDTD SYSTEM "chrome://example/locale/example.dtd" >
+%exampleDTD;
+]>
+
+<window id="main-window"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        onload="Startup()"
+        onunload="Shutdown()"
+        onclose="return WindowIsClosing();"
+        title="&mainWindow.title;"
+        width="800px"
+        height="600px"
+        toggletoolbar="true"
+        windowtype="example:main"
+        drawtitle="true"
+        persist="screenX screenY width height sizemode">
+
+  <script type="application/javascript" src="chrome://example/content/example.js"/>
+
+  <toolbox id="example-toolbox">
+    <menubar id="main-menubar">
+      <menu id="file-menu" label="File">
+        <menupopup id="file-popup">
+          <menuitem label="Quit"/>
+        </menupopup>
+      </menu>
+    </menubar>
+  </toolbox>
+  <browser type="content" src="about:" flex="1"/>
+  <statusbar id="status-bar">
+    <spacer flex="1"/>
+  </statusbar>
+</window>

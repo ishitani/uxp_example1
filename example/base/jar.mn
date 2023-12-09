@@ -1,0 +1,20 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+#filter substitution
+
+example.jar:
+% content example %content/example/
+  content/example/hiddenWindow.xul                              (content/hiddenWindow.xul)
+  content/example/example.js                                    (content/example.js)
+  content/example/example.xul                                   (content/example.xul)
+
+en-US.jar:
+% locale example en-US %locale/en-US/example/
+  locale/en-US/example/example.dtd                             (locale/example.dtd)
+  locale/en-US/example/example.properties                      (locale/example.properties)
+
+classic.jar:
+% skin example classic/1.0 %skin/classic/example/
+  skin/classic/example/example.css                              (skin/example.css)
