@@ -2,8 +2,8 @@
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
-<!ENTITY  brandFullName         "Example Application">
-<!ENTITY  brandShortName        "Example">
-<!ENTITY  brandShorterName      "Example">
+<!ENTITY  brandFullName         "MyTestApp Application">
+<!ENTITY  brandShortName        "MyTestApp">
+<!ENTITY  brandShorterName      "MyTestApp">
 <!ENTITY  vendorShortName       "Open Source Community">
 <!ENTITY  sidebarName           "Sidebar">

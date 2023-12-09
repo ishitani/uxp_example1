@@ -328,7 +328,7 @@ InitXPCOMGlue(const char *argv0, nsIFile **xreDirectory)
 
 int main(int argc, char* argv[], char* envp[])
 {
-  printf("nsExampleApp launch...\n");
+  printf("nsMyTestApp launch...\n");
   mozilla::TimeStamp start = mozilla::TimeStamp::Now();
 
 #ifdef HAS_DLL_BLOCKLIST

@@ -4,17 +4,17 @@
 
 #filter substitution
 
-example.jar:
-% content example %content/example/
-  content/example/hiddenWindow.xul                              (content/hiddenWindow.xul)
-  content/example/example.js                                    (content/example.js)
-  content/example/example.xul                                   (content/example.xul)
+mytestapp.jar:
+% content mytestapp %content/mytestapp/
+  content/mytestapp/hiddenWindow.xul                              (content/hiddenWindow.xul)
+  content/mytestapp/mytestapp.js                                  (content/mytestapp.js)
+  content/mytestapp/mytestapp.xul                                 (content/mytestapp.xul)
 
 en-US.jar:
-% locale example en-US %locale/en-US/example/
-  locale/en-US/example/example.dtd                             (locale/example.dtd)
-  locale/en-US/example/example.properties                      (locale/example.properties)
+% locale mytestapp en-US %locale/en-US/mytestapp/
+  locale/en-US/mytestapp/mytestapp.dtd                            (locale/mytestapp.dtd)
+  locale/en-US/mytestapp/mytestapp.properties                     (locale/mytestapp.properties)
 
 classic.jar:
-% skin example classic/1.0 %skin/classic/example/
-  skin/classic/example/example.css                              (skin/example.css)
+% skin mytestapp classic/1.0 %skin/classic/mytestapp/
+  skin/classic/mytestapp/mytestapp.css                            (skin/mytestapp.css)

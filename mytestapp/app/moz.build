@@ -8,7 +8,7 @@ DIRS += ['profile/extensions']
 GeckoProgram(CONFIG['MOZ_APP_NAME'])
 
 JS_PREFERENCE_PP_FILES += [
-    'profile/example-prefs.js',
+    'profile/mytestapp-prefs.js',
 ]
 
 # if CONFIG['LIBXUL_SDK']:
@@ -16,7 +16,7 @@ JS_PREFERENCE_PP_FILES += [
 #         'profile/channel-prefs.js',
 #     ]
 
-SOURCES += ['nsExampleApp.cpp']
+SOURCES += ['nsMyTestApp.cpp']
 
 FINAL_TARGET_FILES += [
     'blocklist.xml',

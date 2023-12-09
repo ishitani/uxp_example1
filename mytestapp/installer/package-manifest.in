@@ -36,7 +36,7 @@
 ; Mac bundle stuff
 @APPNAME@/Contents/Info.plist
 @APPNAME@/Contents/PkgInfo
-@RESPATH@/example.icns
+@RESPATH@/mytestapp.icns
 @RESPATH@/document.icns
 #endif
 
@@ -196,8 +196,8 @@
 #endif # MOZ_ANGLE_RENDERER
 
 ; [Chrome Files]
-@RESPATH@/chrome/example@JAREXT@
-@RESPATH@/chrome/example.manifest
+@RESPATH@/chrome/mytestapp@JAREXT@
+@RESPATH@/chrome/mytestapp.manifest
 @RESPATH@/chrome/toolkit@JAREXT@
 @RESPATH@/chrome/toolkit.manifest
 
@@ -214,9 +214,9 @@
 ; [Default Preferences]
 ; All the pref files must be part of base to prevent migration bugs
 ; @RESPATH@/browser/defaults/permissions
-; @RESPATH@/browser/@PREF_DIR@/example-prefs.js
+; @RESPATH@/browser/@PREF_DIR@/mytestapp-prefs.js
 ; @RESPATH@/browser/@PREF_DIR@/palemoon-branding.js
-@RESPATH@/defaults/pref/example-prefs.js
+@RESPATH@/defaults/pref/mytestapp-prefs.js
 @RESPATH@/goanna.js
 @RESPATH@/defaults/autoconfig/prefcalls.js
 

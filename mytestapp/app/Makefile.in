@@ -104,8 +104,8 @@ tools repackage:: $(PROGRAM)
 	rsync -aL --include-from='$(srcdir)/macbuild/Contents/MacOS-files-copy.in' --exclude '*' $(DIST)/bin/ '$(dist_dest)/Contents/MacOS'
 	$(RM) '$(dist_dest)/Contents/MacOS/$(PROGRAM)'
 	rsync -aL $(PROGRAM) '$(dist_dest)/Contents/MacOS'
-	cp -RL $(DIST)/branding/cuemol2.icns '$(dist_dest)/Contents/Resources/example.icns'
-	cp -RL $(DIST)/branding/document-qsc.icns '$(dist_dest)/Contents/Resources/document.icns'
+	cp -RL $(DIST)/branding/mytestapp.icns '$(dist_dest)/Contents/Resources/mytestapp.icns'
+	cp -RL $(DIST)/branding/document.icns '$(dist_dest)/Contents/Resources/document.icns'
 	printf APPLMOZB > '$(dist_dest)/Contents/PkgInfo'
 endif
 

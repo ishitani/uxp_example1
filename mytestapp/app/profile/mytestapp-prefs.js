@@ -21,8 +21,8 @@
 #endif
 #endif
 
-pref("toolkit.defaultChromeURI","chrome://example/content/example.xul");
-pref("browser.hiddenWindowChromeURL", "chrome://example/content/hiddenWindow.xul");
+pref("toolkit.defaultChromeURI","chrome://mytestapp/content/mytestapp.xul");
+pref("browser.hiddenWindowChromeURL", "chrome://mytestapp/content/hiddenWindow.xul");
 
 
 

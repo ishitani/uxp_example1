@@ -75,3 +75,4 @@ iceweasel/
 calendar/
 projects/*
 platform/*
+build/*
