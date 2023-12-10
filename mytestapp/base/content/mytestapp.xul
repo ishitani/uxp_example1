@@ -30,7 +30,6 @@
         persist="screenX screenY width height sizemode">
 
   <script type="application/javascript" src="chrome://mytestapp/content/mytestapp.js"/>
-
   <toolbox id="mytestapp-toolbox">
     <menubar id="main-menubar">
       <menu id="file-menu" label="File">
