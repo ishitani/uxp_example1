@@ -16,9 +16,11 @@
 #include <nsIObserverService.h>
 
 #include "XPCCueMol.hpp"
+
 #ifndef TESTING_XXX
 #include "XPCObjWrapper.hpp"
 #include "XPCTimerImpl.hpp"
+#endif
 
 #ifdef XP_WIN
 #  undef NEW_H
@@ -33,6 +35,7 @@
 
 //
 
+#ifndef TESTING_XXX
 #include <qlib/ClassRegistry.hpp>
 #include <qlib/EventManager.hpp>
 #include <qlib/LByteArray.hpp>
@@ -653,7 +656,6 @@ NS_IMETHODIMP XPCCueMol::GetErrMsg(char **_retval )
 /* qINativeWidget createNativeWidget (); */
 NS_IMETHODIMP XPCCueMol::CreateNativeWidget(qINativeWidget **_retval )
 {
-#ifndef TESTING_XXX
   XPCNativeWidget *pWgt = NULL;
 
 #ifdef XP_WIN
@@ -667,14 +669,13 @@ NS_IMETHODIMP XPCCueMol::CreateNativeWidget(qINativeWidget **_retval )
 #endif
 
   if (pWgt==NULL) {
-    LOG_DPRINTLN("XPCCueMol> FATAL ERROR: cannot create native widget");
+    printf("XPCCueMol> FATAL ERROR: cannot create native widget\n");
     return NS_ERROR_FAILURE;
   }
 
   *_retval = pWgt;
   NS_ADDREF((*_retval));
-  MB_DPRINTLN("XPCCueMol> createNativeWidget OK: %p", pWgt);
-#endif
+  printf("XPCCueMol> createNativeWidget OK: %p\n", pWgt);
 
   return NS_OK;
 }

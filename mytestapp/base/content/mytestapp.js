@@ -4,6 +4,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
  
 dump("===== mytestup.js ===== \n");
+// const {Cc,Ci,Cr} = require("chrome");
+const Cc = Components.classes;
+const Ci = Components.interfaces;
+const Cu = Components.utils;
+const Cr = Components.results;
 
 function Startup() {
   // Startup code here
@@ -13,6 +18,33 @@ function Startup() {
   dump("CueMol="+qm+"\n");
   qm.init("path");
 
+  var natwin = qm.createNativeWidget();
+  dump("natwin="+natwin+"\n");
+
+  if (!natwin) {
+    dump("FATAL ERROR: cannot create native widget.\n");
+    window.alert("FATAL ERROR: cannot create native widget.");
+    return;
+  }
+
+  // Get base window object
+  var treeOwner = window.QueryInterface(Ci.nsIInterfaceRequestor)
+    .getInterface(Ci.nsIWebNavigation)
+    .QueryInterface(Ci.nsIDocShellTreeItem)
+    .treeOwner;
+  var docShell = treeOwner.QueryInterface(Ci.nsIInterfaceRequestor)
+    .getInterface(Ci.nsIXULWindow)
+    .docShell;
+  
+  var baseWindow = docShell.QueryInterface(Ci.nsIBaseWindow);
+  var baseWindow2 = treeOwner.QueryInterface(Ci.nsIInterfaceRequestor)
+    .QueryInterface(Ci.nsIBaseWindow);
+  
+  //dd("**** Parent Native Window = " + baseWindow.parentNativeWindow);
+  dump("**** Native Handle = " + baseWindow2.nativeHandle + "\n");
+  natwin.setup(docShell, baseWindow);
+
+  window.natwin = natwin;
 }
 
 function Shutdown() {
@@ -21,4 +53,5 @@ function Shutdown() {
 
 function WindowIsClosing() {
   // Window is closing code here
+  window.natwin = null;
 }

@@ -9,8 +9,8 @@
 
 #include "XPCNativeWidget.hpp"
 
-namespace sysdep { class CglView; }
-namespace qsys { class InDevEvent; }
+// namespace sysdep { class CglView; }
+// namespace qsys { class InDevEvent; }
 
 class XPCNativeWidgetCocoa : public xpcom::XPCNativeWidget
 {
@@ -35,7 +35,7 @@ class XPCNativeWidgetCocoa : public xpcom::XPCNativeWidget
   //virtual void unloadImpl();
   //virtual void resizeImpl(int x, int y, int width, int height);
   
-  virtual void dispatchMouseEvent(int nType, qsys::InDevEvent &ev);
+  // virtual void dispatchMouseEvent(int nType, qsys::InDevEvent &ev);
 
   //
   // Native event handling methods
@@ -55,7 +55,7 @@ class XPCNativeWidgetCocoa : public xpcom::XPCNativeWidget
   void *mParentView;
   void *mView;
 
-  sysdep::CglView *m_pCglView;
+  // sysdep::CglView *m_pCglView;
 
   bool m_bRealTimeDrag;
 

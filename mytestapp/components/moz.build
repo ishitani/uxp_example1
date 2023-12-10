@@ -18,6 +18,7 @@ SOURCES += [
     'xpc_main.cpp',
     'XPCCueMol.cpp',
     'XPCNativeWidget.cpp',
+    'XPCNativeWidgetCocoa.mm',
 ]
 
 XPCOMBinaryComponent('mycomps')

@@ -56,7 +56,7 @@ NS_IMETHODIMP XPCNativeWidget::Setup(nsIDocShell *docShell, nsIBaseWindow *baseW
   nativeWindow hwnd;
   rv = baseWindow->GetParentNativeWindow(&hwnd);
   NS_ENSURE_SUCCESS(rv, rv);
-  printf("!! XPCNativeWindow HWND=%X.\n", hwnd);
+  printf("OK!! XPCNativeWindow HWND=%X.\n", hwnd);
 
   rv = setupImpl(hwnd);
   NS_ENSURE_SUCCESS(rv, rv);
