@@ -72,9 +72,10 @@ nsresult XPCNativeWidgetCocoa::setupImpl(nativeWindow widget)
 
   // Create NSOglMolView object (defined in NSOglMolView.hpp)
   NSOglMolView *view = [NSOglMolView alloc];
-  // NSView *view = [NSButton alloc]];
-    
   [view initWithFrameAndOwner: rect owner: this];
+
+  // NSView *view = [NSButton alloc];
+  // [view initWithFrame: rect];
   
   printf("NSView created: %p (%d, %d)\n", view, width, height);
   
@@ -83,8 +84,8 @@ nsresult XPCNativeWidgetCocoa::setupImpl(nativeWindow widget)
   [view setParentView: parView];
 
   // [view setAcceptsTouchEvents: YES];
-  printf(" superview: %p\n", [view superview]);
-  printf(" nextresponder: %p\n", [view nextResponder]);
+  // printf(" superview: %p\n", [view superview]);
+  // printf(" nextresponder: %p\n", [view nextResponder]);
   
   mView = view;
   
@@ -131,23 +132,33 @@ NS_IMETHODIMP XPCNativeWidgetCocoa::Resize(PRInt32 x, PRInt32 y, PRInt32 width, 
 
   setSize(width, height);
 
+  printf("superview: %p\n", parView);
+  printf("parView: %p\n", mParentView);
+  printf("view: %p\n", mView);
+  printf("view.frame.size.width: %f\n", view.frame.size.width);
+  printf("view.frame.size.height: %f\n", view.frame.size.height);
+  printf("--> ParentView.subviews count: %d\n", parView.subviews.count);
+  for (int i=0; i<parView.subviews.count; ++i) {
+    NSView *pv = parView.subviews[i];
+    printf("  %d: %p\n", i, pv);
+  }
   return NS_OK;
 }
 
 /* void show (); */
 NS_IMETHODIMP XPCNativeWidgetCocoa::Show()
 {
+  printf(">>> XPCNativeWindowCocoa::Show() called\n");
+
   NS_ENSURE_TRUE(mView, NS_ERROR_FAILURE);
   NSView *view = (NSView *) mView;
   if (!m_bValidSizeSet) {
-    // MB_DPRINTLN(">>> XPCNativeWindowCocoa::Show() called but valid size not set %d,%d", getWidth(), getHeight());
+    printf(">>> XPCNativeWindowCocoa::Show() called but valid size not set %d,%d\n", getWidth(), getHeight());
     return NS_OK;
   }
   [view setHidden: NO];
 
-  // MB_DPRINTLN(">>> XPCNativeWindowCocoa::Show() called");
-  printf(">>> XPCNativeWindowCocoa::Show() called\n");
-
+  printf(">>> XPCNativeWindowCocoa::Show() OK\n");
   return NS_OK;
 }
 

@@ -8,7 +8,9 @@
 //
 // Custom view for OpenGL display
 //
-@interface NSOglMolView : NSOpenGLView
+
+// @interface NSOglMolView : NSOpenGLView
+@interface NSOglMolView : NSView
 {
 @private
   XPCNativeWidgetCocoa *mOwner;
@@ -94,7 +96,8 @@
   //MB_DPRINT("initWithFramwAndOwner: owner=%p\n", mOwner);
   NSOpenGLPixelFormat * pf = [NSOglMolView basicPixelFormat];
 
-  self = [super initWithFrame: frameRect pixelFormat: pf];
+  // self = [super initWithFrame: frameRect pixelFormat: pf];
+  self = [super initWithFrame: frameRect];
 
   return self;
 }
@@ -140,15 +143,13 @@
   GLsizei backingPixelWidth  = (GLsizei)(backingBounds.size.width),
     backingPixelHeight = (GLsizei)(backingBounds.size.height);
 
-  printf("DrawRect(%f,%f)-(%f,%f) called!!\n",
-	    backingBounds.origin.x, backingBounds.origin.y,
-	    backingBounds.size.width, backingBounds.size.height);
+  // if (mOwner) 
+  //   mOwner->doRedrawGL();
 
-
-  if (mOwner) 
-    mOwner->doRedrawGL();
-
+  [[NSColor blueColor] set];
   NSRectFill(rect);
+  // NSRectFill(backingBounds);
+
   [[NSColor whiteColor] setStroke];
   NSRect rc = NSMakeRect(10, 10, 50, 50);
   NSBezierPath* thePath = [NSBezierPath bezierPath];
@@ -159,7 +160,14 @@
   [thePath closePath];
   [thePath stroke];
 
-  //[super drawRect:rect];
+  // printf("DrawRect(%f,%f)-(%f,%f) called!!\n",
+  //       backingBounds.origin.x, backingBounds.origin.y,
+  //       backingBounds.size.width, backingBounds.size.height);
+  printf("DrawRect(%f,%f)-(%f,%f) called!!\n",
+        rect.origin.x, rect.origin.y,
+        rect.size.width, rect.size.height);
+
+  // [super drawRect:rect];
 }
 
 ////////////////////////////////////////

@@ -39,7 +39,12 @@
       </menu>
     </menubar>
   </toolbox>
-  <browser type="content" src="about:" flex="1"/>
+  <!-- <browser type="content" src="about:" flex="1"/> -->
+  <hbox id="content-holder" flex="1">
+    <!-- <button label="XXX" flex="1"/>
+    <splitter id="sidebar-splitter" hidden="false" collapse="before"/> -->
+    <iframe id="view-1" flex="1" style="margin: 0px; padding: 0px; border: 0px; -moz-user-focus: normal;"/>
+  </hbox>
   <statusbar id="status-bar">
     <spacer flex="1"/>
   </statusbar>
