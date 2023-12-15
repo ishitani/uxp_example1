@@ -3,24 +3,15 @@
 //
 // $Id: XPCCueMol.cpp,v 1.38 2011/03/10 13:11:55 rishitani Exp $
 //
-
-#define TESTING_XXX
-
 #define __STDC_LIMIT_MACROS
 #define __STDC_CONSTANT_MACROS
 
-#ifndef TESTING_XXX
 #include "xpcom.hpp"
-#endif
-
 #include <nsIObserverService.h>
 
 #include "XPCCueMol.hpp"
-
-#ifndef TESTING_XXX
 #include "XPCObjWrapper.hpp"
 #include "XPCTimerImpl.hpp"
-#endif
 
 #ifdef XP_WIN
 #  undef NEW_H
@@ -35,7 +26,6 @@
 
 //
 
-#ifndef TESTING_XXX
 #include <qlib/ClassRegistry.hpp>
 #include <qlib/EventManager.hpp>
 #include <qlib/LByteArray.hpp>
@@ -54,6 +44,10 @@
 #ifdef USE_XMLRPC
 #include <xmlrpc_bridge/xrbr.hpp>
 #endif
+
+//#define _num_to_str(num) #num
+//#define num_to_str(num) _num_to_str(num)
+//#pragma message ("new = " num_to_str(new))
 
 #if defined(XP_WIN)
 #include <sysdep/WglView.hpp>
@@ -209,8 +203,6 @@ namespace importers {
 }
 #endif
 
-#endif
-
 using namespace xpcom;
 
 #ifdef NS_IMPL_ISUPPORTS
@@ -257,80 +249,82 @@ XPCCueMol::Observe(nsISupports* aSubject, const char* aTopic,
 
 NS_IMETHODIMP XPCCueMol::Init(const char *confpath, bool *_retval)
 {
-#ifndef TESTING_XXX
   try {
-    nsresult rv = NS_OK;
+  // XXX
+  //AddRef();
   
-    if (m_bInit) {
-      LOG_DPRINTLN("XPCCueMol> ERROR: CueMol already initialized.");
-      return NS_ERROR_ALREADY_INITIALIZED;
-    }
+  nsresult rv = NS_OK;
+  
+  if (m_bInit) {
+    LOG_DPRINTLN("XPCCueMol> ERROR: CueMol already initialized.");
+    return NS_ERROR_ALREADY_INITIALIZED;
+  }
 
-    registerFileType();
+  registerFileType();
 
-    // CueMol2 Application initialization
-    qsys::init(confpath);
-    sysdep::init();
-    //MB_DPRINTLN("---------- qsys::init(confpath) OK");
+  // CueMol2 Application initialization
+  qsys::init(confpath);
+  sysdep::init();
+  //MB_DPRINTLN("---------- qsys::init(confpath) OK");
 
-    // load other modules
-    render::init();
-    molstr::init();
-    molvis::init();
-    xtal::init();
-    symm::init();
-    surface::init();
-    molanl::init();
-    lwview::init();
-    anim::init();
+  // load other modules
+  render::init();
+  molstr::init();
+  molvis::init();
+  xtal::init();
+  symm::init();
+  surface::init();
+  molanl::init();
+  lwview::init();
+  anim::init();
 
 #ifdef HAVE_MDTOOLS_MODULE
-    mdtools::init();
+  mdtools::init();
 #endif
 
 #ifdef HAVE_IMPORTERS_MODULE
-    importers::init();
+  importers::init();
 #endif
 
-    initTextRender();
-    MB_DPRINTLN("---------- initTextRender() OK");
+  initTextRender();
+  MB_DPRINTLN("---------- initTextRender() OK");
 
-    // setup timer
-    qlib::EventManager::getInstance()->initTimer(new XPCTimerImpl);
+  // setup timer
+  qlib::EventManager::getInstance()->initTimer(new XPCTimerImpl);
 
-    // setup quit-app observer
-    nsCOMPtr<nsIObserverService> obs = do_GetService("@mozilla.org/observer-service;1", &rv);
-    NS_ENSURE_SUCCESS(rv, rv);
+  // setup quit-app observer
+  nsCOMPtr<nsIObserverService> obs = do_GetService("@mozilla.org/observer-service;1", &rv);
+  NS_ENSURE_SUCCESS(rv, rv);
 
-    rv = obs->AddObserver(this, "xpcom-shutdown", PR_FALSE);
-    // rv = obs->AddObserver(this, "quit-application", PR_FALSE);
-    NS_ENSURE_SUCCESS(rv, rv);
+  rv = obs->AddObserver(this, "xpcom-shutdown", PR_FALSE);
+  // rv = obs->AddObserver(this, "quit-application", PR_FALSE);
+  NS_ENSURE_SUCCESS(rv, rv);
 
-    MB_DPRINTLN("---------- setup observers OK");
+  MB_DPRINTLN("---------- setup observers OK");
 
 #ifdef HAVE_JAVASCRIPT
-    // load internal JS module
-    jsbr::init();
-    MB_DPRINTLN("---------- jsbr::init() OK");
+  // load internal JS module
+  jsbr::init();
+  MB_DPRINTLN("---------- jsbr::init() OK");
 #endif
 
 #ifdef HAVE_PYTHON
-    // load python module
-    pybr::init(confpath);
-    MB_DPRINTLN("---------- setup PYBR OK");
+  // load python module
+  pybr::init(confpath);
+  MB_DPRINTLN("---------- setup PYBR OK");
 #endif
 
 #ifdef USE_XMLRPC
-    // load python module
-    xrbr::init();
-    MB_DPRINTLN("---------- setup XRBR OK");
+  // load python module
+  xrbr::init();
+  MB_DPRINTLN("---------- setup XRBR OK");
 #endif
 
-    registerViewFactory();
+  registerViewFactory();
 
-    MB_DPRINTLN("XPCCueMol> CueMol initialized.");
-    m_bInit = true;
-    *_retval = PR_TRUE;
+  MB_DPRINTLN("XPCCueMol> CueMol initialized.");
+  m_bInit = true;
+  *_retval = PR_TRUE;
 
   }
   catch (const qlib::LException &e) {
@@ -342,14 +336,12 @@ NS_IMETHODIMP XPCCueMol::Init(const char *confpath, bool *_retval)
     LOG_DPRINTLN("Init> Caught unknown exception");
     return NS_ERROR_NOT_IMPLEMENTED;
   }
-#endif
-  
+
   return NS_OK;
 }
 
 NS_IMETHODIMP XPCCueMol::Fini()
 {
-#ifndef TESTING_XXX
   int i;
 
 #ifdef USE_XMLRPC
@@ -404,13 +396,11 @@ NS_IMETHODIMP XPCCueMol::Fini()
   sysdep::fini();
   qsys::fini();
 
-#endif
-  printf("XPCCueMol> CueMol finalized.\n");
+  MB_DPRINTLN("XPCCueMol> CueMol finalized.");
   m_bInit = false;
   return NS_OK;
 }
 
-#ifndef TESTING_XXX
 bool XPCCueMol::initTextRender()
 {
   gfx::TextRenderImpl *pTR = (gfx::TextRenderImpl *) sysdep::createTextRender();
@@ -420,7 +410,6 @@ bool XPCCueMol::initTextRender()
   m_pTR = pTR;
   return true;
 }
-#endif
 
 /* boolean isInitialized (); */
 NS_IMETHODIMP XPCCueMol::IsInitialized(bool *_retval)
@@ -430,13 +419,11 @@ NS_IMETHODIMP XPCCueMol::IsInitialized(bool *_retval)
   //return NS_ERROR_NOT_IMPLEMENTED;
 }
 
-#ifndef TESTING_XXX
+
 using qlib::ClassRegistry;
-#endif
 
 NS_IMETHODIMP XPCCueMol::HasClass(const char * clsname, bool *_retval)
 {
-#ifndef TESTING_XXX
   ClassRegistry *pMgr = ClassRegistry::getInstance();
   if (pMgr==NULL) {
     LOG_DPRINTLN("XPCCueMol> ERROR: CueMol not initialized.");
@@ -460,7 +447,6 @@ NS_IMETHODIMP XPCCueMol::HasClass(const char * clsname, bool *_retval)
     LOG_DPRINTLN("HasObj> Caught unknown exception");
     // return NS_ERROR_NOT_IMPLEMENTED;
   }
-#endif
 
   return NS_OK;
 }
@@ -468,7 +454,6 @@ NS_IMETHODIMP XPCCueMol::HasClass(const char * clsname, bool *_retval)
 NS_IMETHODIMP XPCCueMol::GetService(const char *svcname,
                                     qIObjWrapper **_retval)
 {
-#ifndef TESTING_XXX
   ClassRegistry *pMgr = ClassRegistry::getInstance();
   if (pMgr==NULL) {
     LOG_DPRINTLN("XPCCueMol> ERROR: CueMol not initialized.");
@@ -501,26 +486,19 @@ NS_IMETHODIMP XPCCueMol::GetService(const char *svcname,
   *_retval = pWrap;
   NS_ADDREF((*_retval));
   MB_DPRINTLN("getService(%s) OK: %p", svcname, pscr);
-#endif
-
   return NS_OK;
 }
 
 NS_IMETHODIMP XPCCueMol::CreateObj(const char *clsname,
                                    qIObjWrapper **_retval)
 {
-#ifndef TESTING_XXX
   return CreateFromString(clsname, NULL, _retval);
-#endif
-
-  return NS_OK;
 }
 
 NS_IMETHODIMP XPCCueMol::CreateFromString(const char *clsname,
                                           const char *strval,
                                           qIObjWrapper **_retval)
 {
-#ifndef TESTING_XXX
   ClassRegistry *pMgr = ClassRegistry::getInstance();
   if (pMgr==NULL) {
     LOG_DPRINTLN("XPCCueMol> ERROR: CueMol not initialized.");
@@ -559,12 +537,9 @@ NS_IMETHODIMP XPCCueMol::CreateFromString(const char *clsname,
   *_retval = pWrap;
   NS_ADDREF((*_retval));
   MB_DPRINTLN("XPCCueMol> createObj(%s) OK: %p", clsname, pscr);
-#endif
-
   return NS_OK;
 }
 
-#ifndef TESTING_XXX
 XPCObjWrapper *XPCCueMol::createWrapper()
 {
   int nind;
@@ -590,11 +565,9 @@ XPCObjWrapper *XPCCueMol::createWrapper()
 
   return pWr;
 }
-#endif
 
 void XPCCueMol::notifyDestr(int nind)
 {
-#ifndef TESTING_XXX
   //MB_DPRINTLN("======\ndestroy obj ind=%d, dbgmsg=%s\n======", nind, m_pool[nind].dbgmsg.c_str());
   m_pool[nind].ptr = NULL;
 
@@ -603,7 +576,6 @@ void XPCCueMol::notifyDestr(int nind)
 #endif
 
   m_freeind.push_back(nind);
-#endif
 }
 
 void XPCCueMol::setWrapperDbgMsg(int nind, const char *dbgmsg)
@@ -621,7 +593,6 @@ void XPCCueMol::setWrapperDbgMsg(int nind, const char *dbgmsg)
 
 void XPCCueMol::dumpWrappers() const
 {
-#ifndef TESTING_XXX
   MB_DPRINTLN("=== Unreleased wrappers... ===");
   for (int i=0; i<m_pool.size(); ++i) {
     if (m_pool[i].ptr) {
@@ -637,16 +608,13 @@ void XPCCueMol::dumpWrappers() const
     }
   }
   MB_DPRINTLN("=== Done ===");
-#endif
 }
 
 /* void getErrMsg (out string confpath); */
 NS_IMETHODIMP XPCCueMol::GetErrMsg(char **_retval )
 {
-#ifndef TESTING_XXX
   nsAutoCString nsstr(m_errMsg.c_str());
   *_retval = ToNewCString(nsstr);
-#endif
 
   return NS_OK;
 }
@@ -669,14 +637,13 @@ NS_IMETHODIMP XPCCueMol::CreateNativeWidget(qINativeWidget **_retval )
 #endif
 
   if (pWgt==NULL) {
-    printf("XPCCueMol> FATAL ERROR: cannot create native widget\n");
+    LOG_DPRINTLN("XPCCueMol> FATAL ERROR: cannot create native widget");
     return NS_ERROR_FAILURE;
   }
 
   *_retval = pWgt;
   NS_ADDREF((*_retval));
-  printf("XPCCueMol> createNativeWidget OK: %p\n", pWgt);
-
+  MB_DPRINTLN("XPCCueMol> createNativeWidget OK: %p", pWgt);
   return NS_OK;
 }
 
@@ -686,7 +653,6 @@ NS_IMETHODIMP XPCCueMol::CreateNativeWidget(qINativeWidget **_retval )
 /// ACString convBAryToStr (in qIObjWrapper aObj)
 NS_IMETHODIMP XPCCueMol::ConvBAryToStr(qIObjWrapper *aObj, nsACString & _retval )
 {
-#ifndef TESTING_XXX
   XPCObjWrapper *pp = dynamic_cast<XPCObjWrapper *>(aObj);
   if (pp==NULL) {
     LOG_DPRINTLN("ConvBAryToStr> FATAL ERROR: unknown wrapper type (unsupported)");
@@ -711,15 +677,14 @@ NS_IMETHODIMP XPCCueMol::ConvBAryToStr(qIObjWrapper *aObj, nsACString & _retval 
   for (int i=0; i<nlen; ++i)
     ptr[i] = pBuf[i];
 
-#endif
   return NS_OK;
 }
 
 /// qIObjWrapper createBAryFromStr (in ACString aString, in PRUint32 aCount)
 NS_IMETHODIMP XPCCueMol::CreateBAryFromStr(const nsACString & aString, qIObjWrapper **_retval )
 {
-#ifndef TESTING_XXX
   nsresult rv = NS_OK;
+
   PRUint32 nlen = aString.Length();
 
   qlib::LByteArray *pNewObj = new qlib::LByteArray(nlen);
@@ -734,7 +699,6 @@ NS_IMETHODIMP XPCCueMol::CreateBAryFromStr(const nsACString & aString, qIObjWrap
   pWrap->setWrappedObj(pNewObj);
   *_retval = pWrap;
   NS_ADDREF((*_retval));
-#endif
 
   return NS_OK;
 }
@@ -743,7 +707,6 @@ NS_IMETHODIMP XPCCueMol::CreateBAryFromStr(const nsACString & aString, qIObjWrap
 /* qIObjWrapper createBAryFromIStream (in nsIInputStream aInputStream); */
 NS_IMETHODIMP XPCCueMol::CreateBAryFromIStream(nsIInputStream *aInputStream, qIObjWrapper **_retval )
 {
-#ifndef TESTING_XXX
   nsresult rv = NS_OK;
 
   uint64_t nlen;
@@ -762,12 +725,10 @@ NS_IMETHODIMP XPCCueMol::CreateBAryFromIStream(nsIInputStream *aInputStream, qIO
   pWrap->setWrappedObj(pNewObj);
   *_retval = pWrap;
   NS_ADDREF((*_retval));
-#endif
 
   return NS_OK;
 }
 
-#ifndef TESTING_XXX
 void XPCCueMol::cleanupWrappers()
 {
   int i;
@@ -798,16 +759,13 @@ void XPCCueMol::cleanupWrappers()
   m_pool.clear();
   MB_DPRINTLN("=== Done ===");
 }
-#endif
 
 ///////////////////////
 
 NS_IMETHODIMP XPCCueMol::Test(nsISupports *arg)
 {
-#ifndef TESTING_XXX
   *((int *) 0) = 100;
   dumpWrappers();
-#endif
   return NS_OK;
 }
 

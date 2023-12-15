@@ -2,8 +2,6 @@
 // $Id: xpc_main.cpp,v 1.8 2011/02/12 13:51:19 rishitani Exp $
 //
 
-#define TESTING_XXX
-
 #include "xpcom.hpp"
 
 #include <mozilla/ModuleUtils.h>
@@ -48,10 +46,8 @@ static nsresult mod_ctor()
   nsresult rv;
 
   printf("CueMol2 XPCOM : MOD CTOR called\n");
-#ifndef TESTING_XXX
   qlib::init();
   MB_DPRINTLN("CueMol2 XPCOM : INITIALIZED");
-#endif
 
   return NS_OK;
 }
@@ -63,9 +59,7 @@ static void mod_dtor()
     //gpXPCCueMol->dumpWrappers();
     gpXPCCueMol->Fini();
   }
-#ifndef TESTING_XXX
   qlib::fini();
-#endif
 }
 
 static const mozilla::Module kModule = {

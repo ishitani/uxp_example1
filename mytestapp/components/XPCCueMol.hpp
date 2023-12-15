@@ -9,23 +9,19 @@
 #include <nsIObserver.h>
 #include "qICueMol.h"
 
-#ifndef TESTING_XXX
 #include <qlib/qlib.hpp>
 #include <qlib/LString.hpp>
-#endif
 
 namespace xpcom {
 
-#ifndef TESTING_XXX
   using qlib::LString;
+
   class XPCObjWrapper;
-#endif
 
   class XPCCueMol : public qICueMol, public nsIObserver
   {
   private:
 
-#ifndef TESTING_XXX
     struct Cell
     {
       Cell() : ptr(NULL) {}
@@ -38,6 +34,8 @@ namespace xpcom {
     std::vector<Cell> m_pool;
     std::list<int> m_freeind;
 
+    bool m_bInit;
+
     void *m_pTR;
 
     // Recently occured error message
@@ -46,10 +44,6 @@ namespace xpcom {
     // setup text rendering
     bool initTextRender();
     void finiTextRender();
-#endif
-
-    bool m_bInit;
-
 
   protected:
     virtual ~XPCCueMol();
@@ -63,10 +57,8 @@ namespace xpcom {
 
     NS_DECL_NSIOBSERVER;
 
-#ifndef TESTING_XXX
     /// Create new object wrapper
     XPCObjWrapper *createWrapper();
-#endif
 
     /// Notify the destruction of wrapper (to clear the wrapper pool entry)
     void notifyDestr(int nind);
@@ -80,12 +72,10 @@ namespace xpcom {
     /// Cleanup unreleased wrapper objects
     void cleanupWrappers();
 
-#ifndef TESTING_XXX
     void setErrMsg(const LString &msg)
     {
       m_errMsg = msg;
     }
-#endif
 
     static XPCCueMol *getInstance();
   };

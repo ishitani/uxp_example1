@@ -4,8 +4,6 @@
 // $Id: XPCNativeWidget.cpp,v 1.8 2011/02/12 13:51:19 rishitani Exp $
 //
 
-#define TESTING_XXX
-
 #include "xpcom.hpp"
 
 //#undef XP_DARWIN
@@ -15,12 +13,12 @@
 
 #include <nsIDOMMouseEvent.h>
 
-#ifndef TESTING_XXX
 #include <qsys/Scene.hpp>
 #include <qsys/SceneManager.hpp>
 #include <qsys/InDevEvent.hpp>
+
 #include <gfx/TextRenderManager.hpp>
-#endif
+//#include "Canvas2DTextRender.hpp"
 
 using namespace xpcom;
 
@@ -38,12 +36,19 @@ XPCNativeWidget::XPCNativeWidget()
   m_bUseGlShader = false;
   m_bUseMultiPad = false;
   m_bUseHiDPI = false;
-  printf("!! XPCNativeWidget ctor called.\n");
+
+  //m_timer = do_CreateInstance("@mozilla.org/timer;1");
+  //printf("!! XPCNativeWidget ctor called.\n");
 }
 
 XPCNativeWidget::~XPCNativeWidget()
 {
-  printf("!! XPCNativeWidget dtor called.\n");
+  /*if (m_timer) {
+    m_timer->Cancel();
+    m_timer = nullptr;
+  }*/
+
+  //MB_DPRINT("!! XPCNativeWidget dtor called.\n");
 }
 
 /* void setBaseWin (in nsIBaseWindow arg); */
@@ -56,7 +61,7 @@ NS_IMETHODIMP XPCNativeWidget::Setup(nsIDocShell *docShell, nsIBaseWindow *baseW
   nativeWindow hwnd;
   rv = baseWindow->GetParentNativeWindow(&hwnd);
   NS_ENSURE_SUCCESS(rv, rv);
-  printf("OK!! XPCNativeWindow HWND=%X.\n", hwnd);
+  MB_DPRINTLN("!! XPCNativeWindow HWND=%X.", hwnd);
 
   rv = setupImpl(hwnd);
   NS_ENSURE_SUCCESS(rv, rv);
@@ -64,12 +69,17 @@ NS_IMETHODIMP XPCNativeWidget::Setup(nsIDocShell *docShell, nsIBaseWindow *baseW
   mBaseWin = baseWindow;
   mDocShell = docShell;
 
-#ifndef TESTING_XXX
   gfx::TextRenderManager *pTRM = gfx::TextRenderManager::getInstance();
   if (pTRM==NULL)
     return NS_OK;
-#endif
     
+  //  Canvas2DTextRender *pTTR =
+  //    dynamic_cast<Canvas2DTextRender *>( pTRM->getImpl() );
+  //  if (pTTR==NULL)
+  //    return NS_OK;
+  //
+  //  pTTR->addDocShell(docShell);
+
   return NS_OK;
 }
 
@@ -80,11 +90,13 @@ NS_IMETHODIMP XPCNativeWidget::Load(PRInt32 nSceneID, PRInt32 nViewID)
 
   NS_ENSURE_TRUE(mBaseWin, NS_ERROR_FAILURE);
 
+  // rv = setupImpl(m);
+  // NS_ENSURE_SUCCESS(rv, rv);
+
   ////////
 
-  printf("XPCNativeWidget::Load (Scene uid=%d, View uid=%d) called !!\n", nSceneID, nViewID);
+  MB_DPRINTLN("XPCNativeWidget::Load (Scene uid=%d, View uid=%d) called !!", nSceneID, nViewID);
   
-#ifndef TESTING_XXX
   qsys::ScenePtr rsc = qsys::SceneManager::getSceneS(nSceneID);
   NS_ENSURE_TRUE(!rsc.isnull(), NS_ERROR_FAILURE);
 
@@ -92,16 +104,13 @@ NS_IMETHODIMP XPCNativeWidget::Load(PRInt32 nSceneID, PRInt32 nViewID)
   NS_ENSURE_TRUE(!rvw.isnull(), NS_ERROR_FAILURE);
 
   m_rQmView = rvw;
-#endif
 
   m_nSceneID = nSceneID;
   m_nViewID = nViewID;
 
-#ifndef TESTING_XXX
   // Calls system-dependent OpenGL initialization routine(s)
   rv = attachImpl();
   NS_ENSURE_SUCCESS(rv, rv);
-#endif
 
   return NS_OK;
 }
@@ -109,12 +118,18 @@ NS_IMETHODIMP XPCNativeWidget::Load(PRInt32 nSceneID, PRInt32 nViewID)
 /* void unload (); */
 NS_IMETHODIMP XPCNativeWidget::Unload()
 {
-  printf("!! XPCNativeWidget::Unload() called.\n");
+  MB_DPRINTLN("!! XPCNativeWidget::Unload() called.");
 
-#ifndef TESTING_XXX
+  //  gfx::TextRenderManager *pTRM = gfx::TextRenderManager::getInstance();
+  //  if (pTRM!=NULL) {
+  //    Canvas2DTextRender *pTTR =
+  //      dynamic_cast<Canvas2DTextRender *>( pTRM->getImpl() );
+  //    if (pTTR!=NULL) {
+  //      pTTR->removeDocShell(mDocShell);
+  //    }
+  //  }
+  
   m_rQmView = qsys::ViewPtr();
-#endif
-
   mBaseWin = nullptr;
   mDocShell = nullptr;
   return NS_OK;
@@ -127,11 +142,19 @@ NS_IMETHODIMP XPCNativeWidget::HandleEvent(nsIDOMEvent* aEvent)
   nsAutoString eventType;
   aEvent->GetType(eventType);
 
+/*
+  if(eventType.EqualsLiteral("resize")) {
+    if (mBaseWin) {
+      PRInt32 x, y, cx, cy;
+      mBaseWin->GetPositionAndSize(&x,&y,&cx,&cy);
+      // MB_DPRINTLN("DOM Resize Event %d, %d, %d, %d", x,y,cx,cy);
+      resizeImpl(x,y,cx,cy);
+    }
+  }
+*/
   if(eventType.EqualsLiteral("DOMMouseScroll")) {
-#ifndef TESTING_XXX
     qsys::InDevEvent ev;
     setupFromDOMEvent(aEvent, false, ev);
-#endif
 
     nsCOMPtr<nsIDOMUIEvent> mouseEvent = do_QueryInterface(aEvent, &rv);
     NS_ENSURE_SUCCESS(rv, rv);
@@ -139,14 +162,11 @@ NS_IMETHODIMP XPCNativeWidget::HandleEvent(nsIDOMEvent* aEvent)
     PRInt32 delta;
     mouseEvent->GetDetail(&delta);
 
-    printf("DOMMouseScroll event deltax=%d\n", delta);
-#ifndef TESTING_XXX
+    MB_DPRINTLN("DOMMouseScroll event deltax=%d", delta);
     ev.setType(qsys::InDevEvent::INDEV_WHEEL);
     ev.setDeltaX(delta * -40);
     dispatchMouseEvent(DME_WHEEL, ev);
-#endif
   }
-
   return NS_OK;
 }
 
@@ -228,7 +248,6 @@ NS_IMETHODIMP XPCNativeWidget::Reload(bool *_retval )
   return NS_OK;
 }
 
-#ifndef TESTING_XXX
 /// non-DOM mouse event handling
 void XPCNativeWidget::dispatchMouseEvent(int nType, qsys::InDevEvent &ev)
 {
@@ -236,6 +255,18 @@ void XPCNativeWidget::dispatchMouseEvent(int nType, qsys::InDevEvent &ev)
 
     // mouse down event
   case DME_MOUSE_DOWN:
+    /*
+    if (m_meh.getState()==sysdep::MouseEventHandler::DRAG_NONE) {
+      m_timer->InitWithFuncCallback(timerCallbackFunc, this, DBCLK_TIMER, nsITimer::TYPE_ONE_SHOT);
+    }
+    else {
+      m_timer->Cancel();
+    }
+    m_meh.buttonDown(ev, true);
+    break;
+    //return true;
+     */
+
     m_meh.buttonDown(ev);
     break;
 
@@ -266,20 +297,30 @@ void XPCNativeWidget::dispatchMouseEvent(int nType, qsys::InDevEvent &ev)
   m_rQmView->fireInDevEvent(ev);
   return;
 }
-#endif
 
 void XPCNativeWidget::resetCursor()
 {
+  /*
+  if (!mWidget)
+    return;
+  // reset mouse cursor
+  nsCursor id = mWidget->GetCursor();
+  mWidget->SetCursor(id);
+   */
 }
 
-#ifndef TESTING_XXX
 /// Convert DOM-type event to InDevEvent
 void XPCNativeWidget::setupFromDOMEvent(nsIDOMEvent* aEvent,
                                         bool bMouseBtn,
                                         qsys::InDevEvent &ev)
 {
   MB_DPRINTLN("aEvent: %p", aEvent);
-
+  /*
+  void *pp;
+  aEvent->QueryInterface(nsIDOMMouseEvent::GetIID(),
+			 &pp);
+  MB_DPRINTLN("aEvent: %p", pp);
+  */
   nsresult rv;
   nsCOMPtr<nsIDOMMouseEvent> mouseEvent = do_QueryInterface(aEvent, &rv);
   if (NS_FAILED(rv))
@@ -338,18 +379,15 @@ void XPCNativeWidget::setupFromDOMEvent(nsIDOMEvent* aEvent,
 
   return;
 }
-#endif
 
 //static
 void XPCNativeWidget::timerCallbackFunc(nsITimer *aTimer, void *aClosure)
 {
-#ifndef TESTING_XXX
   //MB_DPRINTLN("Timer: notified");
   XPCNativeWidget *pThis = reinterpret_cast<XPCNativeWidget *>(aClosure);
+
   qsys::InDevEvent ev;
   pThis->dispatchMouseEvent(DME_DBCHK_TIMEUP, ev);
-#endif
-
   return;
 }
 

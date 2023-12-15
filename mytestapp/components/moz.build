@@ -3,13 +3,22 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-# DIRS += [
-#     'downloads',
-# ]
+LOCAL_INCLUDES += [
+    '%/opt/homebrew/include/',
+    '%/Users/user1/tmp/include/',
+]
+OS_LIBS += ['-L/Users/user1/tmp/lib',
+    'qlib', 'qsys', 'gfx',
+    'importers', 'lwview', 'mdtools', 'molanl', 'render', 'surface', 'symm', 'xtal',
+    'anim', 'sysdep', 'molstr', 'molvis',
+]
+DEFINES['HAVE_CONFIG_H'] = True
+CXXFLAGS += ['-fexceptions', '-frtti']
 
 XPIDL_SOURCES += [
     'qICueMol.idl',
     'qINativeWidget.idl',
+    'qIObjWrapper.idl',
 ]
 
 XPIDL_MODULE = 'mycomps'
@@ -19,6 +28,14 @@ SOURCES += [
     'XPCCueMol.cpp',
     'XPCNativeWidget.cpp',
     'XPCNativeWidgetCocoa.mm',
+    'XPCObjWrapper.cpp',
+    'XPCTimerImpl.cpp',
 ]
 
 XPCOMBinaryComponent('mycomps')
+# warning("XXXXXXXXXX: " + CONFIG['MACOS_SDK_DIR'])
+warning("XXX CONFIG: %s" % CONFIG)
+# warning("XXX OS_CXXFLAGS: %s" % OS_CXXFLAGS)
+
+for i in CONFIG.keys():
+    warning("CFLAGS: %s" % i)

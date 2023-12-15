@@ -48,3 +48,9 @@ if test -n "$MOZ_PERSONAS"; then
 fi
 
 AC_SUBST(MOZ_PERSONAS)
+
+MOZ_ARG_WITH_STRING(libcuemol2-dir,
+[  --with-libcuemol2-dir=path   Use path as],
+    LIBCUEMOL2_DIR=$withval)
+echo "XXXXXXXXXX: $LIBCUEMOL2_DIR"
+AC_SUBST(LIBCUEMOL2_DIR)

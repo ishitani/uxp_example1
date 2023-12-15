@@ -31,7 +31,5 @@
 #endif
 #include <nsStringAPI.h>
 
-#ifndef TESTING_XXX
 #include <common.h>
-#endif
 

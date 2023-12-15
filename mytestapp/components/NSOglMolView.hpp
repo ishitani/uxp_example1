@@ -8,9 +8,7 @@
 //
 // Custom view for OpenGL display
 //
-
-// @interface NSOglMolView : NSOpenGLView
-@interface NSOglMolView : NSView
+@interface NSOglMolView : NSOpenGLView
 {
 @private
   XPCNativeWidgetCocoa *mOwner;
@@ -96,8 +94,13 @@
   //MB_DPRINT("initWithFramwAndOwner: owner=%p\n", mOwner);
   NSOpenGLPixelFormat * pf = [NSOglMolView basicPixelFormat];
 
-  // self = [super initWithFrame: frameRect pixelFormat: pf];
+  self = [super initWithFrame: frameRect pixelFormat: pf];
+  /*
   self = [super initWithFrame: frameRect];
+  NSOpenGLContext *ctxt = 
+    [[[NSOpenGLContext alloc] initWithFormat:pf shareContext: share] autorelease];
+  [self setOpenGLContext: ctxt];
+  */
 
   return self;
 }
@@ -138,20 +141,29 @@
 
 - (void) drawRect: (NSRect) rect
 {		
+  /*
   // Get view dimensions in pixels
   NSRect backingBounds = [self convertRectToBacking:[self bounds]];
   GLsizei backingPixelWidth  = (GLsizei)(backingBounds.size.width),
     backingPixelHeight = (GLsizei)(backingBounds.size.height);
 
-  // if (mOwner) 
-  //   mOwner->doRedrawGL();
+  MB_DPRINT("DrawRect(%f,%f)-(%f,%f) called!!\n",
+	    backingBounds.origin.x, backingBounds.origin.y,
+	    backingBounds.size.width, backingBounds.size.height);
+  */
 
-  [[NSColor blueColor] set];
-  NSRectFill(rect);
-  // NSRectFill(backingBounds);
+  if (mOwner) 
+    mOwner->doRedrawGL();
+
+  return;
+  
+  /*
+    NSRectFill(rect);
 
   [[NSColor whiteColor] setStroke];
+
   NSRect rc = NSMakeRect(10, 10, 50, 50);
+    
   NSBezierPath* thePath = [NSBezierPath bezierPath];
   [thePath moveToPoint:rect.origin];
   [thePath lineToPoint:NSMakePoint(NSMaxX(rect), NSMaxY(rect))];
@@ -159,19 +171,25 @@
   [thePath lineToPoint:NSMakePoint(NSMaxX(rect), NSMinY(rect))];
   [thePath closePath];
   [thePath stroke];
-
-  // printf("DrawRect(%f,%f)-(%f,%f) called!!\n",
-  //       backingBounds.origin.x, backingBounds.origin.y,
-  //       backingBounds.size.width, backingBounds.size.height);
-  printf("DrawRect(%f,%f)-(%f,%f) called!!\n",
-        rect.origin.x, rect.origin.y,
-        rect.size.width, rect.size.height);
-
-  // [super drawRect:rect];
+  */
+  //[super drawRect:rect];
 }
 
 ////////////////////////////////////////
 // Mouse events
+/*
+- (void)mouseEntered:(NSEvent *)theEvent
+{
+//MB_DPRINT("===NSOglMolView: mouse entered called!!\n");
+  //[super mouseEntered:theEvent];
+}
+
+- (void)mouseExited:(NSEvent *)theEvent
+{
+  //MB_DPRINT("===NSOglMolView: mouseExited called!!\n");
+  //[super mouseExited:theEvent];
+}
+*/
 
 - (void)mouseMoved:(NSEvent *)theEvent
 {
@@ -198,9 +216,9 @@
 - (void)mouseDown:(NSEvent *)theEvent
 {
   if (mOwner) {
-    // qsys::InDevEvent ev;
-    // [self setUpMouseEvent: theEvent pEvent: &ev];
-    // mOwner->dispatchMouseEvent(0, ev);
+    qsys::InDevEvent ev;
+    [self setUpMouseEvent: theEvent pEvent: &ev];
+    mOwner->dispatchMouseEvent(0, ev);
   }
 
   // MB_DPRINT("MouseDown called %f, %f!!\n", [NSEvent mouseLocation].x, [NSEvent mouseLocation].y);
@@ -210,9 +228,9 @@
 - (void)mouseUp:(NSEvent *)theEvent
 {
   if (mOwner) {
-    // qsys::InDevEvent ev;
-    // [self setUpMouseEvent: theEvent pEvent: &ev];
-    //mOwner->dispatchMouseEvent(2, ev);
+    qsys::InDevEvent ev;
+    [self setUpMouseEvent: theEvent pEvent: &ev];
+    mOwner->dispatchMouseEvent(2, ev);
   }
 
   // MB_DPRINT("MouseUp called %f, %f!!\n", [NSEvent mouseLocation].x, [NSEvent mouseLocation].y);
@@ -222,9 +240,9 @@
 - (void)mouseDragged:(NSEvent *)theEvent
 {
   if (mOwner) {
-    // qsys::InDevEvent ev;
-    //[self setUpMouseEvent: theEvent pEvent: &ev];
-    // mOwner->dispatchMouseEvent(1, ev);
+    qsys::InDevEvent ev;
+    [self setUpMouseEvent: theEvent pEvent: &ev];
+    mOwner->dispatchMouseEvent(1, ev);
   }
 
   // MB_DPRINT("MouseDragged called %f, %f!!\n", [NSEvent mouseLocation].x, [NSEvent mouseLocation].y);
@@ -236,33 +254,33 @@
 - (void)rightMouseDown:(NSEvent *)theEvent
 {
   if (mOwner) {
-    // qsys::InDevEvent ev;
-    // [self setUpMouseEvent: theEvent pEvent: &ev];
-    //mOwner->dispatchMouseEvent(0, ev);
+    qsys::InDevEvent ev;
+    [self setUpMouseEvent: theEvent pEvent: &ev];
+    mOwner->dispatchMouseEvent(0, ev);
   }
 
-  // MB_DPRINT("rightMouseDown called %f, %f!!\n", [NSEvent mouseLocation].x, [NSEvent mouseLocation].y);
+  MB_DPRINT("rightMouseDown called %f, %f!!\n", [NSEvent mouseLocation].x, [NSEvent mouseLocation].y);
   [super rightMouseDown:theEvent];
 }
 
 - (void)rightMouseUp:(NSEvent *)theEvent
 {
   if (mOwner) {
-    // qsys::InDevEvent ev;
-    // [self setUpMouseEvent: theEvent pEvent: &ev];
-    // mOwner->dispatchMouseEvent(2, ev);
+    qsys::InDevEvent ev;
+    [self setUpMouseEvent: theEvent pEvent: &ev];
+    mOwner->dispatchMouseEvent(2, ev);
   }
 
-  // MB_DPRINT("rightMouseUp called %f, %f!!\n", [NSEvent mouseLocation].x, [NSEvent mouseLocation].y);
+  MB_DPRINT("rightMouseUp called %f, %f!!\n", [NSEvent mouseLocation].x, [NSEvent mouseLocation].y);
   [super rightMouseUp:theEvent];
 }
 
 - (void)rightMouseDragged:(NSEvent *)theEvent
 {
   if (mOwner) {
-    // qsys::InDevEvent ev;
-    // [self setUpMouseEvent: theEvent pEvent: &ev];
-    // mOwner->dispatchMouseEvent(1, ev);
+    qsys::InDevEvent ev;
+    [self setUpMouseEvent: theEvent pEvent: &ev];
+    mOwner->dispatchMouseEvent(1, ev);
   }
 
   //MB_DPRINT("rightMouseDragged called %f, %f!!\n", [NSEvent mouseLocation].x, [NSEvent mouseLocation].y);
@@ -274,33 +292,33 @@
 - (void)otherMouseDown:(NSEvent *)theEvent
 {
   if (mOwner) {
-    // qsys::InDevEvent ev;
-    // [self setUpMouseEvent: theEvent pEvent: &ev];
-    // mOwner->dispatchMouseEvent(0, ev);
+    qsys::InDevEvent ev;
+    [self setUpMouseEvent: theEvent pEvent: &ev];
+    mOwner->dispatchMouseEvent(0, ev);
   }
 
-  // MB_DPRINT("otherMouseDown called %f, %f!!\n", [NSEvent mouseLocation].x, [NSEvent mouseLocation].y);
+  MB_DPRINT("otherMouseDown called %f, %f!!\n", [NSEvent mouseLocation].x, [NSEvent mouseLocation].y);
   [super otherMouseDown:theEvent];
 }
 
 - (void)otherMouseUp:(NSEvent *)theEvent
 {
   if (mOwner) {
-    // qsys::InDevEvent ev;
-    // [self setUpMouseEvent: theEvent pEvent: &ev];
-    // mOwner->dispatchMouseEvent(2, ev);
+    qsys::InDevEvent ev;
+    [self setUpMouseEvent: theEvent pEvent: &ev];
+    mOwner->dispatchMouseEvent(2, ev);
   }
 
-  // MB_DPRINT("otherMouseUp called %f, %f!!\n", [NSEvent mouseLocation].x, [NSEvent mouseLocation].y);
+  MB_DPRINT("otherMouseUp called %f, %f!!\n", [NSEvent mouseLocation].x, [NSEvent mouseLocation].y);
   [super otherMouseUp:theEvent];
 }
 
 - (void)otherMouseDragged:(NSEvent *)theEvent
 {
   if (mOwner) {
-    // qsys::InDevEvent ev;
-    // [self setUpMouseEvent: theEvent pEvent: &ev];
-    // mOwner->dispatchMouseEvent(1, ev);
+    qsys::InDevEvent ev;
+    [self setUpMouseEvent: theEvent pEvent: &ev];
+    mOwner->dispatchMouseEvent(1, ev);
   }
 
   //MB_DPRINT("otherMouseDragged called %f, %f!!\n", [NSEvent mouseLocation].x, [NSEvent mouseLocation].y);
@@ -317,28 +335,28 @@
   float delY = [theEvent deltaY];
   float delZ = [theEvent deltaZ];
 
-  // MB_DPRINTLN("scrollWheel x=%f, y=%f, z=%f", delX, delY, delZ);
+  MB_DPRINTLN("scrollWheel x=%f, y=%f, z=%f", delX, delY, delZ);
 
-  // if (qlib::isNear(delX, 0.0f) &&
-  // qlib::isNear(delY, 0.0f)) {
-  // return;
-  // }
+  if (qlib::isNear(delX, 0.0f) &&
+      qlib::isNear(delY, 0.0f)) {
+    return;
+  }
 
   if (mOwner) {
-    // if (mOwner->useMultiTouchPad()) {
-    // mOwner->scrollGesture(delX, delY);
-    // return;
-    // }
+    if (mOwner->useMultiTouchPad()) {
+      mOwner->scrollGesture(delX, delY);
+      return;
+    }
 
     delX *= scale;
     delY *= scale;
-    // qsys::InDevEvent ev;
-    // [self setUpMouseEvent: theEvent pEvent: &ev];
+    qsys::InDevEvent ev;
+    [self setUpMouseEvent: theEvent pEvent: &ev];
 
-    // ev.setType(qsys::InDevEvent::INDEV_WHEEL);
-    // ev.setDeltaX((int) delY);
+    ev.setType(qsys::InDevEvent::INDEV_WHEEL);
+    ev.setDeltaX((int) delY);
 
-    // mOwner->dispatchMouseEvent(3, ev);
+    mOwner->dispatchMouseEvent(3, ev);
   }
   
 }
@@ -347,32 +365,32 @@
 // Multi-touch events
 
 // Pinch gesture
-// - (void) magnifyWithEvent: (NSEvent *) anEvent
-// {
-//   float deltaZ = [anEvent deltaZ];
-//   if (mOwner) {
-//     mOwner->pinchGesture(deltaZ);
-//   }
-//   // MB_DPRINT("magnify %f\n", deltaZ);
-// }
-// // rotate gesture
-// - (void) rotateWithEvent: (NSEvent *) anEvent
-// {
-//   float rot = [anEvent rotation];
-//   if (mOwner) {
-//     mOwner->rotateGesture(rot);
-//   }
-//   // MB_DPRINT("rotate %f\n", rot);
-// }
-// // swipe gesture
-// - (void) swipeWithEvent: (NSEvent *) anEvent
-// {
-//   MB_DPRINT("swipe %f %f\n", [anEvent deltaX], [anEvent deltaY]);
+- (void) magnifyWithEvent: (NSEvent *) anEvent
+{
+  float deltaZ = [anEvent deltaZ];
+  if (mOwner) {
+    mOwner->pinchGesture(deltaZ);
+  }
+  // MB_DPRINT("magnify %f\n", deltaZ);
+}
+// rotate gesture
+- (void) rotateWithEvent: (NSEvent *) anEvent
+{
+  float rot = [anEvent rotation];
+  if (mOwner) {
+    mOwner->rotateGesture(rot);
+  }
+  // MB_DPRINT("rotate %f\n", rot);
+}
+// swipe gesture
+- (void) swipeWithEvent: (NSEvent *) anEvent
+{
+  MB_DPRINT("swipe %f %f\n", [anEvent deltaX], [anEvent deltaY]);
 
-//   if (mOwner) {
-//     mOwner->swipeGesture([anEvent deltaX], [anEvent deltaY]);
-//   }
-// }
+  if (mOwner) {
+    mOwner->swipeGesture([anEvent deltaX], [anEvent deltaY]);
+  }
+}
 
 
 
@@ -400,64 +418,64 @@
 
 - (void) setUpMouseEvent: (NSEvent *)theEvent pEvent: (void *)pEvent
 {
-  // NSPoint winLoc = [theEvent locationInWindow];
-  // NSPoint location = [self convertPoint:winLoc fromView:nil];
-  // NSUInteger mod = [theEvent modifierFlags];
-  // NSEventType type = [theEvent type];
+  NSPoint winLoc = [theEvent locationInWindow];
+  NSPoint location = [self convertPoint:winLoc fromView:nil];
+  NSUInteger mod = [theEvent modifierFlags];
+  NSEventType type = [theEvent type];
 
-  // qsys::InDevEvent &ev = *(qsys::InDevEvent *)pEvent;
+  qsys::InDevEvent &ev = *(qsys::InDevEvent *)pEvent;
 
-  // // MB_DPRINTLN("(%d,%d)",drt.left + m_nViewX, drt.top + m_nViewY);
-  // //MB_DPRINTLN("modifier=%X", mod);
+  // MB_DPRINTLN("(%d,%d)",drt.left + m_nViewX, drt.top + m_nViewY);
+  //MB_DPRINTLN("modifier=%X", mod);
 
-  // location.y = [self frame].size.height - location.y;
+  location.y = [self frame].size.height - location.y;
 
-  // // ev.setSource(this);
-  // ev.setX((int) location.x );
-  // ev.setY((int) location.y );
+  // ev.setSource(this);
+  ev.setX((int) location.x );
+  ev.setY((int) location.y );
 
-  // NSWindow *ns_win = [self window];
-  // NSScreen *ns_scr = [ns_win screen];
+  NSWindow *ns_win = [self window];
+  NSScreen *ns_scr = [ns_win screen];
 
-  // NSPoint rootloc = [ns_win convertBaseToScreen: winLoc];
-  // rootloc.y = [ns_scr frame].size.height - rootloc.y;
-  // // MB_DPRINT("rootloc: %f, %f\n", rootloc.x, rootloc.y);
-  // ev.setRootX((int) rootloc.x);
-  // ev.setRootY((int) rootloc.y);
+  NSPoint rootloc = [ns_win convertBaseToScreen: winLoc];
+  rootloc.y = [ns_scr frame].size.height - rootloc.y;
+  // MB_DPRINT("rootloc: %f, %f\n", rootloc.x, rootloc.y);
+  ev.setRootX((int) rootloc.x);
+  ev.setRootY((int) rootloc.y);
 
-  // int modif = 0;
+  int modif = 0;
 
-  // if (mod&NSShiftKeyMask)
-  //   modif |= qsys::InDevEvent::INDEV_SHIFT;
-  // if (!mEmulateRBtn && (mod&NSControlKeyMask) )
-  //   modif |= qsys::InDevEvent::INDEV_CTRL;
-  // if (mod&NSAlternateKeyMask)
-  //   modif |= qsys::InDevEvent::INDEV_ALT;
+  if (mod&NSShiftKeyMask)
+    modif |= qsys::InDevEvent::INDEV_SHIFT;
+  if (!mEmulateRBtn && (mod&NSControlKeyMask) )
+    modif |= qsys::InDevEvent::INDEV_CTRL;
+  if (mod&NSAlternateKeyMask)
+    modif |= qsys::InDevEvent::INDEV_ALT;
 
-  // if (type==NSLeftMouseDown||
-  //     type==NSLeftMouseUp||
-  //     type==NSLeftMouseDragged) {
+  if (type==NSLeftMouseDown||
+      type==NSLeftMouseUp||
+      type==NSLeftMouseDragged) {
 
-  //   if (mEmulateRBtn && (mod&NSControlKeyMask) ) {
-  //     // Emulate Mouse RButton event by Ctrl button
-  //     modif |= qsys::InDevEvent::INDEV_RBTN;
-  //   }
-  //   else {
-  //     modif |= qsys::InDevEvent::INDEV_LBTN;
-  //   }
-  // }
-  // else if (type==NSRightMouseDown||
-  //      type==NSRightMouseUp||
-  //      type==NSRightMouseDragged)
-  //   modif |= qsys::InDevEvent::INDEV_RBTN;
-  // else if (type==NSOtherMouseDown||
-  //      type==NSOtherMouseUp||
-  //      type==NSOtherMouseDragged)
-  //   modif |= qsys::InDevEvent::INDEV_MBTN;
+    if (mEmulateRBtn && (mod&NSControlKeyMask) ) {
+      // Emulate Mouse RButton event by Ctrl button
+      modif |= qsys::InDevEvent::INDEV_RBTN;
+    }
+    else {
+      modif |= qsys::InDevEvent::INDEV_LBTN;
+    }
+  }
+  else if (type==NSRightMouseDown||
+	   type==NSRightMouseUp||
+	   type==NSRightMouseDragged)
+    modif |= qsys::InDevEvent::INDEV_RBTN;
+  else if (type==NSOtherMouseDown||
+	   type==NSOtherMouseUp||
+	   type==NSOtherMouseDragged)
+    modif |= qsys::InDevEvent::INDEV_MBTN;
 
-  // ev.setModifier(modif);
+  ev.setModifier(modif);
 
-  // return;
+  return;
 }
 
 - (BOOL) getUseRbtnEmul

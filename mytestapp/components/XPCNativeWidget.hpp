@@ -15,20 +15,18 @@
 #include <nsIBaseWindow.h>
 #include "qINativeWidget.h"
 
-#ifndef TESTING_XXX
 #include <qsys/View.hpp>
 #include <sysdep/MouseEventHandler.hpp>
-#endif
 
-#ifndef TESTING_XXX
 namespace qsys { class InDevEvent; }
-#endif
 
 namespace xpcom {
 
-  class XPCNativeWidget : public qINativeWidget
+  class XPCNativeWidget : public qINativeWidget //, public nsIDOMEventListener
   {
   private:
+    // Timer used for double-click check
+    //nsCOMPtr<nsITimer> m_timer;
 
   protected:
     virtual ~XPCNativeWidget();
@@ -38,6 +36,8 @@ namespace xpcom {
 
   public:
     NS_DECL_ISUPPORTS;
+    // NS_DECL_NSIDOMEVENTLISTENER;
+    // NS_DECL_QINATIVEWIDGET
 
      NS_IMETHOD Setup(nsIDocShell *docShell, nsIBaseWindow *arg);
      NS_IMETHOD Load(PRInt32 scid, PRInt32 vwid);
@@ -77,15 +77,16 @@ namespace xpcom {
       DME_WHEEL = 3,
       DME_DBCHK_TIMEUP = 4
     };
-
-#ifndef TESTING_XXX
     virtual void dispatchMouseEvent(int nType, qsys::InDevEvent &ev);
-    qsys::ViewPtr getQmView() const { return m_rQmView; }
-#endif
+
+    // virtual void unloadImpl() =0;
+    // virtual void resizeImpl(int x, int y, int width, int height) =0;
 
     void setSize(int w, int h) { mWidth = w; mHeight = h;}
     int getWidth() const { return mWidth; }
     int getHeight() const { return mHeight; }
+
+    qsys::ViewPtr getQmView() const { return m_rQmView; }
 
     void resetCursor();
 
@@ -102,17 +103,15 @@ namespace xpcom {
     int mPosX, mPosY;
 
     int m_nSceneID, m_nViewID;
-
-#ifndef TESTING_XXX
     qsys::ViewPtr m_rQmView;
+
     sysdep::MouseEventHandler m_meh;
-    void setupFromDOMEvent(nsIDOMEvent* aEvent, bool bMouseBtn, qsys::InDevEvent &ev);
-#endif
     
     bool m_bUseGlShader;
     bool m_bUseMultiPad;
     bool m_bUseHiDPI;
 
+    void setupFromDOMEvent(nsIDOMEvent* aEvent, bool bMouseBtn, qsys::InDevEvent &ev);
   };
 
 }
