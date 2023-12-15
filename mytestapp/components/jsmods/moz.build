@@ -1,0 +1,5 @@
+
+EXTRA_PP_JS_MODULES += ['appboots.js', 'harness.js']
+
+FINAL_TARGET_PP_FILES += ['harness-options.json']
+

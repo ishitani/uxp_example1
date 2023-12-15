@@ -10,6 +10,8 @@ const Ci = Components.interfaces;
 const Cu = Components.utils;
 const Cr = Components.results;
 
+Cu.import("resource://gre/modules/appboots.js");
+
 let dd = function (str) {dump (str + "\n");}
 
 function setupScriptResize(aFrm)
