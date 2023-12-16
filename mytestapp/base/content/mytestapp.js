@@ -4,15 +4,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
  
 dump("===== mytestup.js ===== \n");
-// const {Cc,Ci,Cr} = require("chrome");
-const Cc = Components.classes;
-const Ci = Components.interfaces;
-const Cu = Components.utils;
-const Cr = Components.results;
 
+const Cu = Components.utils;
 Cu.import("resource://gre/modules/appboots.js");
 
-let dd = function (str) {dump (str + "\n");}
+const debug = require("debug_util");
+const dd = debug.dd;
+
+/*const xxx = require("chrome");
+dd("xxx: "+xxx);
+for (i of Object.keys(xxx)) {
+  dd(i+": "+xxx[i]);
+  }*/
+const {Cc,Ci,Cr} = require("chrome");
+/*const Cc = Components.classes;
+const Ci = Components.interfaces;
+const Cr = Components.results;*/
+dd("Cc: "+Cc);
 
 function setupScriptResize(aFrm)
 {
@@ -130,10 +138,10 @@ let setup = function (window, aFrm, aScID, aVwID, cuemol)
 
 function Startup() {
   // Startup code here
-  dump("XXXX Startup called!!\n\n");
+  dd("XXXX Startup called!!");
   const CueMol = new Components.Constructor("@cuemol.org/XPCCueMol", "qICueMol");
   var qm = new CueMol;
-  dump("CueMol="+qm+"\n");
+  dd("CueMol="+qm);
   qm.init("path");
 
   let aFrm = document.getElementById("view-1");

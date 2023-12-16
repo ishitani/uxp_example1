@@ -98,8 +98,8 @@ const FENNEC_ID = "{a23983c0-fd0e-11dc-95ff-0800200c9a66}";
 function buildHarnessService(rootFileSpec, dump, logError,
                              onQuit, options) {
   if (arguments.length == 1) {
-    // ({dump, logError, onQuit, options}) = getDefaults(rootFileSpec);
-      var x = getDefaults(rootFileSpec);
+      // let {dump, logError, onQuit, options} = getDefaults(rootFileSpec);
+      const x = getDefaults(rootFileSpec);
       dump = x.dump
       logError = x.logError
       onQuit = x.onQuit
@@ -169,7 +169,7 @@ function buildHarnessService(rootFileSpec, dump, logError,
     // be able to remove it.
     var compMgr = Components.manager;
     compMgr = compMgr.QueryInterface(Ci.nsIComponentRegistrar);
-
+    let name;
     for (name in options.resources) {
       var path = options.resources[name];
       var dir;
