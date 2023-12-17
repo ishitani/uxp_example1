@@ -49,8 +49,16 @@ fi
 
 AC_SUBST(MOZ_PERSONAS)
 
-MOZ_ARG_WITH_STRING(libcuemol2-dir,
-[  --with-libcuemol2-dir=path   Use path as],
-    LIBCUEMOL2_DIR=$withval)
-echo "XXXXXXXXXX: $LIBCUEMOL2_DIR"
-AC_SUBST(LIBCUEMOL2_DIR)
+dnl MOZ_ARG_WITH_STRING(cuemol,[],CUEMOL_DIR=1,CUEMOL_DIR=)
+MOZ_ARG_ENABLE_STRING(cuemol,[],CUEMOL_DIR=$enableval)
+echo "*** CUEMOL_DIR=$CUEMOL_DIR"
+AC_SUBST(CUEMOL_DIR)
+
+dnl MOZ_ARG_ENABLE_BOOL(cuemol,[],
+dnl     ENABLE_CUEMOL=1,
+dnl     ENABLE_CUEMOL=)
+dnl echo "ENABLE_CUEMOL=$ENABLE_CUEMOL"
+dnl if test -n "$ENABLE_CUEMOL"; then
+dnl     AC_DEFINE(ENABLE_CUEMOL)
+dnl fi
+dnl AC_SUBST(ENABLE_CUEMOL)

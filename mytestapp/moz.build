@@ -6,14 +6,11 @@
 CONFIGURE_SUBST_FILES += ['installer/Makefile']
 
 DIRS += [
+    'app',
     'base',
     'components',
-#    'locales',
     'modules',
-#    'themes',
 ]
-
-DIRS += ['app']
 
 if CONFIG['MAKENSISU']:
     DIRS += ['installer/windows']
