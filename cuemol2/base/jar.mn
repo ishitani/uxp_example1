@@ -1,0 +1,35 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+#filter substitution
+
+cuemol2.jar:
+% content cuemol2 %content/cuemol2/
+* content/cuemol2/cuemol2.xul (content/cuemol2.xul)
+* content/cuemol2/cuemol2.js (content/cuemol2.js)
+* content/cuemol2/hiddenWindow.xul (content/hiddenWindow.xul)
+
+# % content cuemol2 %content/cuemol2/
+#   content/cuemol2/hiddenWindow.xul                            (content/hiddenWindow.xul)
+#   content/cuemol2/cuemol2.js                                  (content/cuemol2.js)
+#   content/cuemol2/cuemol2.xul                                 (content/cuemol2.xul)
+
+# en-US.jar:
+# % locale cuemol2 en-US %locale/en-US/cuemol2/
+#   locale/en-US/cuemol2/cuemol2.dtd                            (locale/en-US/cuemol2.dtd)
+#   locale/en-US/cuemol2/cuemol2.properties                     (locale/cuemol2.properties)
+# 
+# classic.jar:
+# % skin cuemol2 classic/1.0 %skin/classic/cuemol2/
+#   skin/classic/cuemol2/cuemol2.css                            (skin/cuemol2.css)
+
+#####
+# Locale files
+
+en-US.jar:
+% locale cuemol2 en-US %locale/en-US/cuemol2
+  locale/en-US/cuemol2/cuemol2.dtd (locale/en-US/cuemol2.dtd)
+  locale/en-US/cuemol2/config-dialog.dtd (locale/en-US/config-dialog.dtd)
+  locale/en-US/cuemol2/mainView.dtd (locale/en-US/mainView.dtd)
+  locale/en-US/cuemol2/mainView.properties (locale/en-US/mainView.properties)
