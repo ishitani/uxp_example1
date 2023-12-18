@@ -83,6 +83,9 @@ FINAL_TARGET_FILES['api-utils-lib'].content += [
     # tabs/
     # test/
     # traits/
+FINAL_TARGET_FILES['api-utils-lib'].traits += [
+    'api-utils-lib/traits/core.js',
+]
     # utils/
     # windows/
 
@@ -101,4 +104,15 @@ FINAL_TARGET_FILES['cuemol2ui-lib'] += [
     'cuemol2ui-lib/scr_util.js',
     'cuemol2ui-lib/styleutil.js',
     'cuemol2ui-lib/util.js',
+]
+
+FINAL_TARGET_FILES['cuemol-wrappers'] += [
+    '%%%s/data/cuemol-wrappers/*.js' % CONFIG['CUEMOL_DIR']
+]
+
+FINAL_TARGET_FILES += [
+    '%%%s/data/sysconfig.xml' % CONFIG['CUEMOL_DIR'],
+]
+FINAL_TARGET_FILES["data"] += [
+    '%%%s/data/data/*' % CONFIG['CUEMOL_DIR'],
 ]

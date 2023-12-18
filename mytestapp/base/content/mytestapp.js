@@ -22,6 +22,25 @@ const Ci = Components.interfaces;
 const Cr = Components.results;*/
 dd("Cc: "+Cc);
 
+const util = require("util");
+const confpath = util.getSysConfigFname(window.arguments);
+dd("confpath: "+confpath);
+if (confpath===null) {
+  alert(e);
+  appStartup.quit(appStartup.eForceQuit);
+}
+// Initialize the application
+const cuemol = require("cuemol");
+if (!cuemol.xpc.init(confpath)) {
+  appStartup.quit(appStartup.eForceQuit);
+}
+
+// Load the user-defined global styles
+const styleutil = require("styleutil");
+var stylem = cuemol.getService("StyleManager");
+var user_style = styleutil.getUserDefStyleFname();
+dd("User default style file: "+user_style);
+
 function setupScriptResize(aFrm)
 {
   var boxObj = aFrm.boxObject;
@@ -138,18 +157,18 @@ let setup = function (window, aFrm, aScID, aVwID, cuemol)
 
 function Startup() {
   // Startup code here
-  dd("XXXX Startup called!!");
-  const CueMol = new Components.Constructor("@cuemol.org/XPCCueMol", "qICueMol");
-  var qm = new CueMol;
-  dd("CueMol="+qm);
-  qm.init("path");
+  // dd("XXXX Startup called!!");
+  // const CueMol = new Components.Constructor("@cuemol.org/XPCCueMol", "qICueMol");
+  // var qm = new CueMol;
+  // dd("CueMol="+qm);
+  // qm.init("path");
 
-  let aFrm = document.getElementById("view-1");
-  dd("iframe: "+aFrm);
+  // let aFrm = document.getElementById("view-1");
+  // dd("iframe: "+aFrm);
 
-  let natwin = setup(window, aFrm, 1, 1, qm);
-  dd("natwin: "+natwin);
-  window.natwin = natwin;
+  // let natwin = setup(window, aFrm, 1, 1, qm);
+  // dd("natwin: "+natwin);
+  // window.natwin = natwin;
 }
 
 function Shutdown() {
