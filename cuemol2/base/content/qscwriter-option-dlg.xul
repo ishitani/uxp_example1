@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+
+<!-- -*- xml -*- -->
+
+<dialog
+  id     = "qscwriter-option-dlg"
+  title  = "Scene options"
+  xmlns  = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  buttons="accept,cancel"
+  onload="onLoad(event)"
+  ondialogaccept="return onDialogAccept(event);">
+  
+  <script type="application/x-javascript;version=1.8" src="qscwriter-option-dlg.js"/>
+
+  <vbox>
+    <checkbox id="chk_force_embed" label="Embed possible"/>
+
+    <groupbox flex="0">
+      <caption>
+	<hbox align="center">
+	  <label value="Compatibility: "/>
+	  <menulist id="qdf-version" flex="0" onselect="onSelect(event)">
+	    <menupopup>
+	      <menuitem label="Ver 2.2 or later" value="QDF0"/>
+	      <menuitem label="Ver 2.3 or later" value="QDF1"/>
+	    </menupopup>
+	  </menulist>
+	</hbox>
+      </caption>
+
+      <!--<checkbox id="chk_comp_gzip" label="Enable compression"/>-->
+      <hbox align="center">
+	<label value="Compression: "/>
+	<menulist id="comp_type" flex="0">
+	  <menupopup>
+	    <menuitem label="xz" value="xzip"/>
+	    <menuitem label="gzip" value="gzip"/>
+	    <menuitem label="none" value="none"/>
+	  </menupopup>
+	</menulist>
+      </hbox>
+      <checkbox id="chk_base64" label="Enable text encoding"/>
+      </groupbox>
+  </vbox>
+  
+</dialog>
+
+
+

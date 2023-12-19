@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<!-- -*- xml -*- -->
+
+<dialog
+  id     = "openPDB"
+  title  = "Download PDB"
+  xmlns  = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  ondialogaccept="return gPdbDlg.onFind();"
+  onload = "gPdbDlg.init();">
+
+  <script type="application/javascript" src="chrome://cuemol2/content/cuemol2-utils.js"/>
+  <script type="application/javascript" src="chrome://cuemol2/content/tools/openPDB.js"/>
+
+<vbox>
+  <description value="Enter PDB ID:"/>
+
+  <!--<textbox id="pdbid" />-->
+  <menulist id="pdbid" editable="true"/>
+
+  <groupbox>
+    <caption label="Coordinates"/>
+    <checkbox id="chk-get-pdb" label="Fetch pdb file" checked="true"/>
+    <menulist id="pdb-svr-list">
+      <menupopup>
+	<menuitem label="RCSB (files.rcsb.org)/cif.gz" value="http://files.rcsb.org/download/{code}.cif.gz" selected="true"/>
+	<menuitem label="RCSB (files.rcsb.org)/pdb.gz" value="http://files.rcsb.org/download/{code}.pdb.gz" />
+	<menuitem label="EBI (ftp.ebi.ac.uk)/pdb.gz" value="http://ftp.ebi.ac.uk/pub/databases/rcsb/pdb-remediated/data/structures/divided/pdb/{mid}/pdb{code}.ent.gz" />
+      </menupopup>
+    </menulist>
+  </groupbox>
+
+  <groupbox>
+    <caption label="Density maps"/>
+    <checkbox id="chk-get-map-2fofc" label="Fetch map file (2Fo-Fc)" checked="false"/>
+    <checkbox id="chk-get-map-fofc" label="Fetch map file (Fo-Fc)" checked="false"/>
+    <menulist id="map-svr-list">
+      <menupopup>
+	<menuitem label="EBI (www.ebi.ac.uk)" value="EBI" selected="true"/>
+	<menuitem label="EDS (eds.bmc.uu.se)" value="EDS"/>
+      </menupopup>
+    </menulist>
+  </groupbox>
+  
+  <description id="result-text" value=""/>
+
+<!-- <hbox>
+
+   <progressmeter id="progress" style="margin: 4px" disabled="true"/>
+   <spacer flex="1"/>
+   <button id="find-button" label="Find" default="true"
+     oncommand="return gPdbDlg.onFind();" />
+   
+   <button id="cancel-button" label="Cancel"
+     oncommand="return gPdbDlg.onCancel();" />
+   
+ </hbox>-->
+</vbox>
+
+</dialog>

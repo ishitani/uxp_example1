@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<!-- -*- xml -*- -->
+
+<!DOCTYPE dialog [
+  <!ENTITY % brandDTD SYSTEM "chrome://global/locale/brand.dtd">
+  %brandDTD;
+  <!ENTITY % cuemol2DTD SYSTEM "chrome://cuemol2/locale/cuemol2.dtd">
+  %cuemol2DTD;
+]>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?> 
+
+<dialog xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  id="aboutDialog"
+  windowtype="CueMol2:About"
+  onload="init(event);" onunload="uninit(event);"
+  title="&aboutDialog.title;"
+  buttons="accept"
+  style="padding-top: 0; -moz-padding-end: 0; padding-bottom: 10px; -moz-padding-start: 0; width: 299px;">
+  
+  <!--<script type="application/x-javascript" src="chrome://cuemol2/content/aboutDialog.js"/>-->
+  <script type="application/javascript" src="chrome://cuemol2/content/cuemol2-utils.js"/>
+
+<script>
+<![CDATA[
+
+function init(aEvent) 
+{
+  if (aEvent.target != document)
+    return;
+
+  try {
+    var info = Cc["@mozilla.org/network/protocol;1?name=http"].getService(Components.interfaces.nsIHttpProtocolHandler);
+    var greInfoField = document.getElementById("GREInfo");
+    greInfoField.value = "Based on Mozilla "+info.misc;
+    //+" version "+info.oscpu;
+  }
+  catch (e) {
+    debug.exception(e);
+  }
+
+  try {
+    // var qm = Cc["@cuemol.org/XPCCueMol"].getService(Ci.qICueMol);
+    var scm = cuemol.getService("SceneManager");
+    var qm_version = scm.version;
+    var qm_build = scm.build;
+
+    var versionField = document.getElementById("version");
+    versionField.value += qm_version;
+    //  versionField.style.display = "block";
+
+    var buildField = document.getElementById("buildID");
+    buildField.value += qm_build;
+  }
+  catch (e) {
+    // Pref is unset
+    debug.exception(e);
+  }
+
+  var userAgentField = document.getElementById("userAgent");
+  userAgentField.value = navigator.userAgent;
+
+  var acceptButton = document.documentElement.getButton("accept");
+  acceptButton.focus();
+}
+
+function uninit(aEvent)
+{
+  if (aEvent.target != document)
+    return;
+}
+
+function goLicPage(aEvent)
+{
+var url = aEvent.target.getAttribute("href");
+//alert("href="+url);
+aEvent.preventDefault();
+//gQm2Main.onOpenURL(url);
+var ioservice = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
+var uriToOpen = ioservice.newURI(url, null, null);
+var extps = Cc["@mozilla.org/uriloader/external-protocol-service;1"].getService(Ci.nsIExternalProtocolService);
+extps.loadURI(uriToOpen, null);
+}
+
+]]>  
+</script>
+
+    <vbox flex="1" id="clientBox"
+style="background-image: url('chrome://cuemol2/content/about.png'); background-repeat: no-repeat; background-color: #FFFFFF; padding-top: 60px; color: #000000;">
+      <label id="appName" value="CueMol2"
+style="color: #2F40A7; font-size: 30px; font-family: verdana,arial,helvetica,Sans-Serif;font-weight: bold; margin-top: 1em; -moz-margin-end: 0; margin-bottom: 0px; -moz-margin-start: 17px;"/>
+        <label id="version" value="&aboutDialog.version; "
+style="font-weight: bold; color: #808080; margin-top: 0; -moz-margin-end: 0; margin-bottom: 2px; -moz-margin-start: 17px;"/>
+        <label id="buildID" value="&aboutDialog.build; "
+style="font-weight: normal; color: #808080; margin-top: 0; -moz-margin-end: 0; margin-bottom: 2px; -moz-margin-start: 17px;"/>
+        <label id="GREInfo" value=""
+style="font-weight: normal; color: #808080; margin-top: 0; -moz-margin-end: 0; margin-bottom: 10px; -moz-margin-start: 17px;"
+	  />
+
+      <description id="copyright"
+style="margin-top: 0; -moz-margin-end: 16px; margin-bottom: 3px; -moz-margin-start: 16px;">
+	&aboutDialog.copyrightInfo1;<label class="text-link" href="&aboutDialog.copyrightInfoLinkURL;" onclick="goLicPage(event)">&aboutDialog.copyrightInfoLink;</label>&aboutDialog.copyrightInfo2;
+      </description>
+
+      <textbox id="userAgent" multiline="true" readonly="true" flex="1"
+style="  margin-top: 10px;
+  -moz-margin-end: 13px;
+  margin-bottom: 0;
+  -moz-margin-start: 13px;
+  background-color: #FFFFFF;
+  color: #000000;
+  padding-top: 1px;
+  -moz-padding-end: 1px;
+  padding-bottom: 1px;
+  -moz-padding-start: 3px;
+  -moz-appearance: none;
+  overflow: hidden;
+  border: none;
+  height: 10em;
+"/>
+    </vbox>
+  <separator class="groove" id="groove" style="margin-top: 0;"/>
+
+</dialog>
+
