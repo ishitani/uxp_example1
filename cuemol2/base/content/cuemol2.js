@@ -1228,51 +1228,6 @@ Qm2Main.prototype.idleAutoUpdateCheck = function ()
 
 Qm2Main.prototype.checkForUpdates = function ()
 {
-  //const pref = require("preferences-service");
-
-  this.chk =Cc["@mozilla.org/updates/update-checker;1"].
-    createInstance(Ci.nsIUpdateChecker);
-
-  var ln = {
-  onProgress: function (request, position, totalSize) {
-    // dd("########## onProgress");
-  },
-  onCheckComplete: function (request, updates,
-                             updateCount) {
-    // dd("########## onCheckComplete: "+updateCount);
-    if (updates.length==0)
-      return;
-    // dd("########## onCheckComplete: "+updates[0]);
-
-    //window.alert("Update found: "+updates[0].name);
-    // popup("Update", "Update found: "+updates[0].name);
-    var elem = document.getElementById("update-alert-popup");
-    var msg = document.getElementById("update-message");
-    var anchor = document.getElementById("alert-popup-anchor");
-    msg.value = "Update for "+updates[0].name +" is available.";
-    this.mUpdateURL = updates[0].detailsURL;
-    this.mUpdateVer = updates[0].version;
-
-    var chkflag = false;
-    if (pref.has("cuemol2.ui.updater.dontcheck"))
-      chkflag = pref.get("cuemol2.ui.updater.dontcheck");
-    document.getElementById('never-update-check').checked = chkflag;
-
-    elem.openPopup(anchor, "start_after", 0, 0, false, true);
-  },
-  onError: function (request, update) {
-    dd("########## UpdateCheckListener.onError");
-  },
-    QueryInterface: function(aIID) {
-      if (!aIID.equals(CoI.nsIUpdateCheckListener) &&
-          !aIID.equals(CoI.nsISupports))
-        throw Cr.NS_ERROR_NO_INTERFACE;
-      return this;
-    }
-  };
-
-  this.chk.checkForUpdates(ln, true);
-
 }
 
 Qm2Main.prototype.setupUpdateMenu = function ()

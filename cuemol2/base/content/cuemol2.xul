@@ -27,7 +27,9 @@
 <!-- <?xul-overlay href="chrome://global/content/globalOverlay.xul"?> -->
 
 <!DOCTYPE window [
-<!ENTITY % cuemol2DTD SYSTEM "chrome://cuemol2/locale/cuemol2.dtd">
+<!ENTITY % brandDTD SYSTEM "chrome://branding/locale/brand.dtd" >
+%brandDTD;
+<!ENTITY % cuemol2DTD SYSTEM "chrome://cuemol2/locale/cuemol2.dtd" >
 %cuemol2DTD;
 ]>
 
