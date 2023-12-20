@@ -1232,18 +1232,18 @@ Qm2Main.prototype.checkForUpdates = function ()
 
 Qm2Main.prototype.setupUpdateMenu = function ()
 {
-  var updates =Cc["@mozilla.org/updates/update-service;1"].
-    getService(Ci.nsIApplicationUpdateService);
+//   var updates =Cc["@mozilla.org/updates/update-service;1"].
+//     getService(Ci.nsIApplicationUpdateService);
   
-  // Disable the UI if the update enabled pref has been locked by the
-  // administrator or if we cannot update for some other reason
-  var checkForUpdates = document.getElementById("help-menu-update");
-  var canCheckForUpdates = updates.canCheckForUpdates;
-// alert("canCheckForUpdates: "+canCheckForUpdates);
-  checkForUpdates.setAttribute("disabled", !canCheckForUpdates);
+//   // Disable the UI if the update enabled pref has been locked by the
+//   // administrator or if we cannot update for some other reason
+//   var checkForUpdates = document.getElementById("help-menu-update");
+//   var canCheckForUpdates = updates.canCheckForUpdates;
+// // alert("canCheckForUpdates: "+canCheckForUpdates);
+//   checkForUpdates.setAttribute("disabled", !canCheckForUpdates);
 
-  //if (!canCheckForUpdates)
-  //return;
+//   //if (!canCheckForUpdates)
+//   //return;
 }
 
 Qm2Main.prototype.closeUpdatePopup = function (event)
