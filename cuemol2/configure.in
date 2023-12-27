@@ -49,16 +49,10 @@ fi
 
 AC_SUBST(MOZ_PERSONAS)
 
-dnl MOZ_ARG_WITH_STRING(cuemol,[],CUEMOL_DIR=1,CUEMOL_DIR=)
+dnl === libcuemol2 directory ===
 MOZ_ARG_ENABLE_STRING(cuemol,[],CUEMOL_DIR=$enableval)
-echo "*** CUEMOL_DIR=$CUEMOL_DIR"
 AC_SUBST(CUEMOL_DIR)
 
-dnl MOZ_ARG_ENABLE_BOOL(cuemol,[],
-dnl     ENABLE_CUEMOL=1,
-dnl     ENABLE_CUEMOL=)
-dnl echo "ENABLE_CUEMOL=$ENABLE_CUEMOL"
-dnl if test -n "$ENABLE_CUEMOL"; then
-dnl     AC_DEFINE(ENABLE_CUEMOL)
-dnl fi
-dnl AC_SUBST(ENABLE_CUEMOL)
+dnl == other dependent libraries ===
+MOZ_ARG_ENABLE_STRING(cuemol-deplibs,[],CUEMOL_DEPLIB_DIRS=$enableval)
+AC_SUBST(CUEMOL_DEPLIB_DIRS)

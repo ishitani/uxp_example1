@@ -49,6 +49,6 @@ ac_add_options --host=aarch64-apple-darwin
 
 mk_add_options MOZ_MAKE_FLAGS="-j8"
 
-# ac_add_options --with-libcuemol2-dir=/Users/user1/tmp/include/
-# ac_add_options --disable-personas2
-ac_add_options --enable-cuemol=/Users/user1/tmp
+ac_add_options --enable-cuemol=/Users/user1/tmp/cuemol2/
+ac_add_options --enable-cuemol-deplibs=/Users/user1/proj64/boost_1_84/lib
+

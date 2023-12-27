@@ -152,6 +152,17 @@
 #endif
 #endif
 
+# CueMol2 specific
+@BINPATH@/@DLL_PREFIX@cuemol2@DLL_SUFFIX@
+@BINPATH@/@DLL_PREFIX@boost*@DLL_SUFFIX@
+@RESPATH@/sysconfig.xml
+@RESPATH@/harness-options.json
+@RESPATH@/data/*
+@RESPATH@/addon-kit-lib/*
+@RESPATH@/api-utils-lib/*
+@RESPATH@/cuemol2ui-lib/*
+@RESPATH@/cuemol-wrappers/*
+
 ; [Components]
 @RESPATH@/components/*
 ; @RESPATH@/browser/components/*
