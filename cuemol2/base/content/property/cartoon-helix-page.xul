@@ -1,0 +1,254 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<?xml-stylesheet href="chrome://cuemol2/content/cuemol2.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://cuemol2/locale/cuemol2.dtd">
+
+<!-- -*- xml -*- -->
+<!--
+  Cartoon Helix Property Page
+  -->
+
+<overlay id="cartoon-helix-page"
+	 xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <overlaytarget id="tabs-overlay-target">
+    <tab label="Helix" id="cartoon-helix-tab"/>
+  </overlaytarget>
+
+  <overlaytarget id="tabpanels-overlay-target">
+
+    <tabpanel flex="1" orient="vertical">
+
+      <hbox flex="0" align="center" class="propdlg-rowbox">
+	<label value="Type:" />
+	<menulist id="helixpage-type" flex="0" class="propdlg-menulist">
+	  <menupopup>
+	    <menuitem label="Cylinder" value="cylinder"/>
+	    <menuitem label="Ribbon" value="ribbon"/>
+	  </menupopup>
+	</menulist>
+      </hbox>
+
+      <deck id="helixpage-deck">
+
+	<!-- ========== Ribbon mode ========== -->
+
+	<vbox>
+	  <groupbox flex="0">
+	    <caption label="Section"/>
+
+	    <grid flex="0">
+	      <columns>
+		<column flex="0"/>
+		<column flex="1"/>
+	      </columns>
+
+	      <rows>
+		<!-- property: ribhelix.type -->
+		<hbox flex="0" align="center" class="propdlg-rowbox">
+		  <label value="Type:" />
+		  <menulist id="ribhlxpage-secttype" flex="0" class="propdlg-menulist">
+		    <menupopup>
+		      <menuitem label="Elliptical" value="elliptical"/>
+		      <menuitem label="Round square" value="roundsquare"/>
+		      <menuitem label="Rectangle" value="rectangle"/>
+		      <menuitem label="Fancy" value="fancy1"/>
+		    </menupopup>
+		  </menulist>
+		</hbox>
+
+		<!-- property: ribhelix.detail -->
+		<row align="center" class="propdlg-rowbox">
+		  <label value="Detail: " flex="0"/>
+		  <numslider id="ribhlxpage-sectdet" flex="1" size="2"
+		    decimalplaces="0" min="4" max="20" increment="1" unit="none"/>
+		</row>
+
+		<!-- property: ribhelix.width -->
+		<row align="center" class="propdlg-rowbox">
+		  <label value="Width (&#0197;): " flex="0"/>
+		  <numslider id="ribhlxpage-width" flex="1" size="3"
+		    decimalplaces="2" min="0" max="5" increment="0.05" unit="none"/>
+		</row>
+
+		<!-- property: ribhelix.tuber -->
+		<row align="center" class="propdlg-rowbox">
+		  <label value="Tuber: " flex="0"/>
+		  <numslider id="ribhlxpage-tuber" flex="1" size="3"
+		    decimalplaces="1" min="0.2" max="10" increment="0.1" unit="none"/>
+		</row>
+
+		<!-- property: ribhelix.sharp -->
+		<row align="center" class="propdlg-rowbox">
+		  <label value="Sharpness: " flex="0"/>
+		  <numslider id="ribhlxpage-sharp" flex="1" size="3"
+		    decimalplaces="2" min="0" max="1" increment="0.05" unit="none"/>
+		</row>
+
+	      </rows>
+	    </grid>
+	  </groupbox>
+	  
+	  <groupbox flex="0">
+	    <caption label="Head/Tail"/>
+	    
+	    <grid flex="0">
+	      <columns>
+		<column flex="0"/>
+		<column flex="1"/>
+	      </columns>
+	      
+	      <rows>
+		<hbox flex="0" align="center" class="propdlg-rowbox">
+		  <label value="Type:" />
+		  <menulist id="helixpage-head-type" flex="0" class="propdlg-menulist">
+		    <menupopup>
+		      <menuitem label="Round" value="smooth"/>
+		      <menuitem label="Flat" value="flat"/>
+		      <menuitem label="Arrow" value="arrow"/>
+		    </menupopup>
+		  </menulist>
+		</hbox>
+		
+		<row align="center" class="propdlg-rowbox">
+		  <label value="Power: " flex="0"/>
+		  <numslider id="helixpage-head-gamma" flex="1" size="3"
+		    ticktype="exp1"
+		    decimalplaces="2" min="0.1" max="10" increment="0.1" unit="none"/>
+		</row>
+		
+		<row align="center" class="propdlg-rowbox">
+		  <label value="Arrow height:" flex="0"/>
+		  <numslider id="helixpage-head-basw" flex="1" size="3"
+		    min="0" max="100" increment="10" unit="%"/>
+		</row>
+		
+		<row align="center" class="propdlg-rowbox">
+		  <label value="Arrow width:" flex="0"/>
+		  <numslider id="helixpage-head-arrow" flex="1" size="3"
+		    min="0" max="100" increment="10" unit="%"/>
+		</row>
+	      </rows>
+	    </grid>
+	  </groupbox>
+	  
+	</vbox>
+	
+	<!-- ========== Cylinder mode ========== -->
+
+	<vbox>
+	  <groupbox>
+	    <caption label="Spline"/>
+
+	    <!-- property: helix_smooth -->
+	    <hbox align="center" class="propdlg-rowbox">
+	      <label value="Smoothing: " flex="0"/>
+	      <numslider id="helixpage-smooth" flex="1" size="3"
+		decimalplaces="1" min="-5" max="5" increment="0.1" unit="none"/>
+	    </hbox>
+
+	    <!-- property: helix_extend -->
+	    <hbox align="center" class="propdlg-rowbox">
+	      <label value="Extend (&#0197;): " flex="0"/>
+	      <numslider id="helixpage-extend" flex="1" size="3"
+		decimalplaces="2" min="0" max="3" increment="0.05" unit="none"/>
+	    </hbox>
+
+	  </groupbox>
+
+	  <groupbox>
+	    <caption label="Section"/>
+
+	    <grid flex="0">
+	      <columns>
+		<column flex="0"/>
+		<column flex="1"/>
+	      </columns>
+
+	      <rows>
+		<!-- property: helix.type -->
+		<hbox flex="0" align="center" class="propdlg-rowbox">
+		  <label value="Type:" />
+		  <menulist id="helixpage-secttype" flex="0" class="propdlg-menulist">
+		    <menupopup>
+		      <menuitem label="Elliptical" value="elliptical"/>
+		      <menuitem label="Round square" value="roundsquare"/>
+		      <menuitem label="Rectangle" value="rectangle"/>
+		    </menupopup>
+		  </menulist>
+		</hbox>
+
+		<!-- property: helix.detail -->
+		<row align="center" class="propdlg-rowbox">
+		  <label value="Detail: " flex="0"/>
+		  <numslider id="helixpage-sectdet" flex="1" size="2"
+		    decimalplaces="0" min="4" max="50" increment="1" unit="none"/>
+		</row>
+
+		<!-- property: helix.tuber -->
+		<row align="center" class="propdlg-rowbox">
+		  <label value="Tuber: " flex="0"/>
+		  <numslider id="helixpage-tuber" flex="1" size="3"
+		    decimalplaces="1" min="0.2" max="10" increment="0.1" unit="none"/>
+		</row>
+
+		<!-- property: helix.sharp -->
+		<row align="center" class="propdlg-rowbox">
+		  <label value="Sharpness: " flex="0"/>
+		  <numslider id="helixpage-sharp" flex="1" size="3"
+		    decimalplaces="2" min="0" max="1" increment="0.05" unit="none"/>
+		</row>
+
+
+	      </rows>
+	    </grid>
+	  </groupbox>
+
+	  <groupbox>
+	    <caption label="Width"/>
+
+	    <grid flex="0">
+	      <columns>
+		<column flex="0"/>
+		<column flex="1"/>
+	      </columns>
+
+	      <rows>
+		<!-- property: helix_width_mode -->
+		<hbox flex="0" align="center" class="propdlg-rowbox">
+		  <label value="Mode:" />
+		  <menulist id="helixpage-wmode" flex="0" class="propdlg-menulist">
+		    <menupopup>
+		      <menuitem label="Constant" value="const"/>
+		      <menuitem label="Average" value="average"/>
+		      <menuitem label="Wavy" value="wavy"/>
+		    </menupopup>
+		  </menulist>
+		</hbox>
+
+		<!-- property: helix_wplus -->
+		<row align="center" class="propdlg-rowbox">
+		  <label value="Add width (&#0197;): " flex="0"/>
+		  <numslider id="helixpage-width" flex="1" size="3"
+		    decimalplaces="2" min="-2" max="3" increment="0.05" unit="none"/>
+		</row>
+
+		<!-- property: helix_wsmooth -->
+		<row align="center" class="propdlg-rowbox">
+		  <label value="Smooth: " flex="0"/>
+		  <numslider id="helixpage-wsmooth" flex="1" size="3"
+		    decimalplaces="1" min="-5" max="5" increment="0.1" unit="none"/>
+		</row>
+		
+	      </rows>
+	    </grid>
+	  </groupbox>
+
+	</vbox>
+      </deck>
+
+    </tabpanel>
+  </overlaytarget>
+</overlay>
+

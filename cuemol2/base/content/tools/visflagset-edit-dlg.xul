@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<?xml-stylesheet href="chrome://cuemol2/content/cuemol2.css" type="text/css"?>
+<?xml-stylesheet href="chrome://cuemol2/content/cuemol2-sysdep.css" type="text/css"?>
+
+<!-- -*- xml -*- -->
+
+<dialog
+  id     = "visflagset-edit-dlg"
+  title  = "Edit visibility flags"
+  xmlns  = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  buttons="accept,cancel"
+  persist="screenX screenY width height"
+  ondialogaccept="return window.gDlgObj.onDialogAccept(event);">
+
+<style xmlns="http://www.w3.org/1999/xhtml">
+treechildren::-moz-tree-checkbox
+{
+  list-style-image: none;
+}
+treechildren::-moz-tree-checkbox(checked)
+{
+  list-style-image: url("chrome://global/skin/checkbox/cbox-check.gif");
+}
+treechildren::-moz-tree-checkbox(disabled)
+{
+  list-style-image: url("chrome://global/skin/checkbox/cbox-check-dis.gif");
+}
+.object-tree-children::-moz-tree-image(disabled) {
+  list-style-image: none;
+}
+treechildren::-moz-tree-cell-text(disabled) {
+  color: GrayText;
+}
+</style>
+
+  <script type="application/javascript" src="chrome://cuemol2/content/cuemol2-utils.js"/>
+  <script type="application/javascript" src="chrome://cuemol2/content/treeview.js"/>
+  <script type="application/javascript" src="chrome://cuemol2/content/tools/visflagset-edit-dlg.js"/>
+
+  <vbox flex="1">
+    <label value="Visibility settings:"/>
+    <tree id="visset-list-tree" flex="1" style="height: 20em; width: 20em;"
+	  hidecolumnpicker="true" editable="true">
+      <treecols>
+	<treecol id="treecol_inc" label="Inc" type="checkbox" flex="0" persist="width" editable="true"/>
+	<splitter class="tree-splitter"/>
+	<treecol id="treecol_objrend" label="Obj/Rend" flex="1" primary="true" persist="width"/>
+	<splitter class="tree-splitter"/>
+	<treecol id="treecol_vis" label="Vis" flex="0" persist="width"/>
+      </treecols>
+      <treechildren class="object-tree-children"/>
+    </tree>
+  </vbox>
+  
+</dialog>

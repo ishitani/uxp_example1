@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay SYSTEM "chrome://cuemol2/locale/cuemol2.dtd">
+<!-- -*- xml -*- -->
+
+<overlay id="cuemol2-panels-overlay"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <overlaytarget id="panels-overlay-target" hidden="true">
+
+    <script type="application/javascript" src="chrome://cuemol2/content/object-menulist.js"/>
+    <script type="application/javascript" src="chrome://cuemol2/content/densitymap-panel.js"/>
+
+    <vbox id="denmap-panel" flex="0" title="&denmapPanel.title;">
+      <hbox>
+	<!-- Renderer selection widget -->
+	<menulist id="denmap-rend-list" sizetopopup="none" flex="1"
+	  onselect="cuemolui.panels.denmap.onSelChanged(event)"
+	  onchange="cuemolui.panels.denmap.onListChanged(event)"/>
+
+	<!-- Dropdown menu widget -->
+	<toolbarbutton id="denmap-panel-menubtn" type="menu" flex="0"
+	  class="dropdown-button"
+	  label="" oncommand="cuemolui.panels.denmap.onMenuChanged(event)"
+	  style="margin: 3px 0px 3px;">
+	  <menupopup
+	    onpopupshowing="cuemolui.panels.denmap.onMenuShowing(event)">
+	    <menuitem id="denmap-panel-levelopt-sigma" name="denmap-panel-levelopt" value="level-sigma" label="Use sigma contour level" type="radio" checked="true"/>
+	    <menuitem id="denmap-panel-levelopt-abs" name="denmap-panel-levelopt" value="level-abs" label="Use absolute contour level" type="radio"/>
+	    <menuseparator/>
+	    <menuitem id="denmap-panel-coloropt-solid" name="denmap-panel-coloropt" value="color-solid" label="Solid coloring" type="radio" checked="true"/>
+	    <menuitem id="denmap-panel-coloropt-multig" name="denmap-panel-coloropt" value="color-multigrad" label="Multi gradient" type="radio"/>
+	  </menupopup>
+	</toolbarbutton>
+      </hbox>
+      
+      <grid flex="1">
+	<columns>
+	  <column/>
+	  <column flex="1"/>
+	</columns>
+	
+	<rows>
+	  <hbox align="center" flex="1">
+	    <button class="panel-button" id="denmap-panel-redraw" label="Redraw"
+	      oncommand="cuemolui.panels.denmap.onRedraw(event)" flex="0"/>
+	    <button class="panel-button" id="denmap-panel-showcell" label="Cell"
+	      oncommand="cuemolui.panels.denmap.onShowCell(event)" flex="0"/>
+	    <deck id="denmap-panel-color-deck" selectedIndex="0" flex="1">
+	      <mycolpicker id="denmap-panel-color" flex="0"
+		onchange="cuemolui.panels.denmap.validateWidget(event)"/>
+	      <button class="panel-button" id="denmap-panel-editmultig" label="Edit color..."
+		oncommand="cuemolui.panels.denmap.onEditColor(event)" flex="0"/>
+	    </deck>
+	  </hbox>
+	  <row align="center">
+	    <label value="Transp: "/>
+	    <numslider id="denmap-panel-transp"
+	      flex="1" size="2" class="simple-numslider"
+	      decimalplaces="1" min="0" max="1" increment="0.1" unit="none"
+	      onchange="cuemolui.panels.denmap.validateWidget(event)"/>
+	  </row>
+	  <row align="center">
+	    <label value="Level: "/>
+	    <numslider id="denmap-panel-level"
+	      flex="1" size="2" class="simple-numslider"
+	      decimalplaces="1" min="-10" max="10" increment="0.1" unit="&#0963;"
+	      onchange="cuemolui.panels.denmap.validateWidget(event)"/>
+	  </row>
+	  <row align="center">
+	    <label value="Extent:"/>
+	    <numslider id="denmap-panel-extent"
+	      flex="1" size="2" class="simple-numslider"
+	      decimalplaces="1" min="0" max="100" increment="1" unit="&#0197;"
+	      onchange="cuemolui.panels.denmap.validateWidget(event)"/>
+	  </row>
+	</rows>
+      </grid>
+    </vbox>
+
+  </overlaytarget>
+
+  <overlaytarget id="window-leftpanels-popup">
+    <menuitem id="menu-denmap-panel-toggle"
+      label="&denmapPanel.title;" type="checkbox" autocheck="false"
+      oncommand="cuemolui.sidepanel.onToggle('denmap-panel')" />
+  </overlaytarget>
+</overlay>
+
